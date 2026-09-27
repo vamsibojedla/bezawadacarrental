@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Testimonials</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafc;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .testimonial-section {
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .testimonial-header {
+      margin-bottom: 30px;
+    }
+
+    .testimonial-header h2 {
+      font-size: 28px;
+      color: #222;
+    }
+
+    .rating {
+      color: #f4b400;
+      font-size: 20px;
+      margin-top: 5px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: left;
+      transition: transform 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .profile img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .profile-info h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .profile-info span {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .stars {
+      color: #f4b400;
+      margin: 8px 0;
+    }
+
+    .review-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: #0078d7;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background-color: #005fa3;
+    }
+
+    .review-btn {
+      margin-top: 30px;
+      display: inline-block;
+      background-color: #4285f4;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="testimonial-section">
+    <div class="testimonial-header">
+      <h2>Customer Testimonials on Google</h2>
+      <div class="rating">⭐ 4.9 out of 19 reviews</div>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile1.jpg" alt="Emmanuel">
+          <div class="profile-info">
+            <h4>Emmanuel</h4>
+            <span>2 days ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Excellent service! The team was very helpful and made the process smooth.</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile2.jpg" alt="Ryan">
+          <div class="profile-info">
+            <h4>Ryan</h4>
+            <span>1 week ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Great experience! Easy to use and very reliable support.</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile3.jpg" alt="Karl">
+          <div class="profile-info">
+            <h4>Karl</h4>
+            <span>3 days ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Loved the service! Quick response and friendly staff.</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile4.jpg" alt="Basie">
+          <div class="profile-info">
+            <h4>Basie</h4>
+            <span>5 days ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Very satisfied! The product works perfectly and the team is great.</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile5.jpg" alt="Beso">
+          <div class="profile-info">
+            <h4>Beso</h4>
+            <span>1 week ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Amazing support and easy setup. Highly recommend!</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="profile">
+          <img src="profile6.jpg" alt="Ģirts">
+          <div class="profile-info">
+            <h4>Ģirts</h4>
+            <span>2 weeks ago</span>
+          </div>
+        </div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">Fantastic experience! The team is responsive and very professional.</p>
+        <a href="#" class="btn">Start Free Trial</a>
+      </div>
+    </div>
+
+    <a href="#" class="review-btn">Review Us on Google</a>
+  </section>
+
+</body>
+</html>

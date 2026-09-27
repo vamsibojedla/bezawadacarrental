@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bezawada Car Rentals - Statistics & Trust Highlights</title>
+
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="statistics.css">
+</head>
+
+<body>
+
+    <section class="stats-section">
+
+        <div class="stats-header">
+            <span class="stats-badge">TRUSTED BY THOUSANDS</span>
+            <h1>Andhra's Leading Self-Drive Car Rental Platform</h1>
+            <p class="stats-subheading">Powering seamless road trips across Vijayawada, Amaravati, and outstation destinations</p>
+        </div>
+
+        <div class="stats-container">
+
+            <!-- Box 1 -->
+            <div class="stat-box">
+                <h2 class="counter" data-target="100" data-suffix="+">0+</h2>
+                <p>
+                    Prime pickup hubs &amp; routes across<br>
+                    Vijayawada, Guntur &amp; Amaravati<br>
+                    region.
+                </p>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="stat-box">
+                <h2 class="counter" data-target="50" data-suffix="K+">0K+</h2>
+                <p>
+                    Happy travelers trust Bezawada<br>
+                    Car Rentals for easy, affordable<br>
+                    and flexible journeys.
+                </p>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="stat-box">
+                <h2 class="counter" data-target="500" data-suffix="+">0+</h2>
+                <p>
+                    Verified &amp; sanitized self-drive cars<br>
+                    available across hatchbacks, SUVs<br>
+                    and luxury models.
+                </p>
+            </div>
+
+            <!-- Box 4 -->
+            <div class="stat-box">
+                <h2 class="counter" data-target="24" data-suffix="/7">0/7</h2>
+                <p>
+                    Doorstep car delivery and dedicated<br>
+                    roadside support to assist your<br>
+                    trip anytime.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Number Counting Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.counter');
+            let hasAnimated = false;
+
+            const animateCounters = () => {
+                if (hasAnimated) return;
+                hasAnimated = true;
+                const duration = 2000; // 2 seconds for a luxurious count-up
+
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'), 10);
+                    const suffix = counter.getAttribute('data-suffix') || '';
+                    const startTime = performance.now();
+
+                    const updateCount = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Ease out expo for smooth deceleration
+                        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                        const current = Math.floor(ease * target);
+
+                        counter.textContent = current + suffix;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCount);
+                        } else {
+                            counter.textContent = target + suffix;
+                            counter.classList.add('counted');
+                        }
+                    };
+
+                    requestAnimationFrame(updateCount);
+                });
+            };
+
+            // IntersectionObserver triggers animation when visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            const section = document.querySelector('.stats-section');
+            if (section) {
+                observer.observe(section);
+            } else {
+                animateCounters();
+            }
+        });
+    </script>
+
+    <!-- =========================================
+         FLOATING WHATSAPP CTA
+         ========================================= -->
+    <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
+      target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat"
+      aria-label="Chat with Bezawada Car Rentals on WhatsApp">
+      <div class="whatsapp-pulse" aria-hidden="true"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#ffffff" aria-hidden="true">
+        <path
+          d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
+      </svg>
+      <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+</body>
+
+</html>

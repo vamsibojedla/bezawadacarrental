@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Self Drive Car Rental in Vijayawada</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <section class="places-section">
+
+        <!-- Heading -->
+        <h1>Rent a Self-Drive Car Near You in Vijayawada</h1>
+
+        <!-- Description -->
+        <p class="description">
+            Find self-drive car rental options across popular parts of Vijayawada.
+            Explore available cars near locations such as Undavalli, Kondapalli,
+            Bhavani Island, Kanaka Durga Temple and Prakasam Barrage.
+        </p>
+
+
+        <!-- Cards -->
+        <div class="carousel-wrapper">
+
+            <div class="places-container" id="placesContainer">
+
+                <!-- 1. Undavalli Caves -->
+                <div class="place-card">
+
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Undavalli%20Caves%202021.jpg?width=900"
+                        alt="Undavalli Caves">
+
+                    <div class="overlay"></div>
+
+                    <h3>Undavalli Caves</h3>
+
+                </div>
+
+
+                <!-- 2. Kondapalli Fort -->
+                <div class="place-card">
+
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kondapalli%20Fort.jpg?width=900"
+                        alt="Kondapalli Fort">
+
+                    <div class="overlay"></div>
+
+                    <h3>Kondapalli Fort</h3>
+
+                </div>
+
+
+                <!-- 3. Bhavani Island -->
+                <div class="place-card">
+
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bhavani%20Island%20of%20Vijayawada.jpg?width=900"
+                        alt="Bhavani Island Vijayawada">
+
+                    <div class="overlay"></div>
+
+                    <h3>Bhavani Island</h3>
+
+                </div>
+
+
+                <!-- 4. Kanaka Durga Temple -->
+                <div class="place-card">
+
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanaka%20Durga%20Temple.jpg?width=900"
+                        alt="Kanaka Durga Temple Vijayawada">
+
+                    <div class="overlay"></div>
+
+                    <h3>Kanaka Durga Temple</h3>
+
+                </div>
+
+
+                <!-- 5. Prakasam Barrage -->
+                <div class="place-card">
+
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Prakasam%20Barrage%20and%20River%20Krishna%20in%20Vijayawada.jpg?width=900"
+                        alt="Prakasam Barrage Vijayawada">
+
+                    <div class="overlay"></div>
+
+                    <h3>Prakasam Barrage</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+        <div class="navigation">
+
+            <button class="nav-btn" id="prevBtn">
+                &#8249;
+            </button>
+
+            <button class="nav-btn" id="nextBtn">
+                &#8250;
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        const container =
+            document.getElementById("placesContainer");
+
+        const nextBtn =
+            document.getElementById("nextBtn");
+
+        const prevBtn =
+            document.getElementById("prevBtn");
+
+
+        nextBtn.addEventListener("click", function () {
+
+            container.scrollBy({
+                left: 340,
+                behavior: "smooth"
+            });
+
+        });
+
+
+        prevBtn.addEventListener("click", function () {
+
+            container.scrollBy({
+                left: -340,
+                behavior: "smooth"
+            });
+
+        });
+
+    </script>
+
+    <!-- =========================================
+         FLOATING WHATSAPP CTA
+         ========================================= -->
+    <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
+      target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat"
+      aria-label="Chat with Bezawada Car Rentals on WhatsApp">
+      <div class="whatsapp-pulse" aria-hidden="true"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#ffffff" aria-hidden="true">
+        <path
+          d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
+      </svg>
+      <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+</body>
+
+</html>

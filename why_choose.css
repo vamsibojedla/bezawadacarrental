@@ -1,0 +1,337 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body:not(:has(.hero-section)) {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FFFFFF;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Main Section */
+.why-section {
+    width: 100%;
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 60px 32px 70px;
+}
+
+/* Header */
+.why-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 50px;
+}
+
+.why-badge {
+    display: inline-block;
+    background-color: #E6F7F8;
+    color: #08919A;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(8, 145, 154, 0.2);
+}
+
+.why-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    margin-bottom: 14px;
+}
+
+.subtitle {
+    font-size: 17px;
+    color: #64748B;
+    line-height: 1.6;
+}
+
+/* Cards Container Grid */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* Card */
+.card {
+    background: #FFFFFF;
+    min-height: 360px;
+    padding: 36px 28px;
+    border-radius: 22px;
+    border: 1.5px solid #E2E8F0;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease,
+                background-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    outline: none;
+}
+
+/* Card Hover: Prominent Elevated Shadow */
+.card:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 24px 48px -10px rgba(8, 145, 154, 0.32),
+                0 12px 24px -6px rgba(15, 23, 42, 0.08),
+                0 0 0 2px rgba(8, 145, 154, 0.35);
+    border-color: #08919A;
+}
+
+/* Icon Badge */
+.icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #E6F7F8;
+    color: #08919A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    border: 1px solid rgba(8, 145, 154, 0.15);
+    transition: all 0.35s ease;
+}
+
+.card:hover .icon {
+    background: #08919A;
+    color: #FFFFFF;
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 8px 18px rgba(8, 145, 154, 0.3);
+}
+
+/* Card Heading */
+.card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0F172A;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+/* Card Description */
+.card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #64748B;
+    font-weight: 500;
+}
+
+/* Click / Active State: Deep Glowing Shadow */
+.card:active,
+.card.is-active {
+    transform: translateY(-4px) scale(0.985);
+    background-color: #F8FEFE;
+    border-color: #08919A;
+    box-shadow: 0 26px 52px -6px rgba(8, 145, 154, 0.45),
+                0 12px 24px -4px rgba(15, 23, 42, 0.12),
+                0 0 0 3px rgba(8, 145, 154, 0.55);
+}
+
+.card.is-active .icon {
+    background: #08919A;
+    color: #FFFFFF;
+    transform: scale(1.1) rotate(4deg);
+    box-shadow: 0 10px 22px rgba(8, 145, 154, 0.4);
+}
+
+/* =========================
+   TABLET (max-width: 1024px)
+   ========================= */
+
+@media (max-width: 1024px) {
+    .why-section {
+        padding: 50px 24px 60px;
+    }
+
+    .why-header h1 {
+        font-size: 32px;
+    }
+
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .card {
+        min-height: 320px;
+        padding: 30px 24px;
+    }
+}
+
+/* =========================
+   MOBILE (max-width: 640px)
+   ========================= */
+
+@media (max-width: 640px) {
+    .why-section {
+        padding: 35px 16px 45px;
+    }
+
+    .why-header {
+        margin-bottom: 32px;
+    }
+
+    .why-header h1 {
+        font-size: 26px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 14.5px;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card {
+        min-height: auto;
+        padding: 26px 20px;
+        border-radius: 18px;
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 22px;
+    }
+
+    .icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+    }
+
+    .card p {
+        font-size: 14px;
+    }
+}
+
+/* =========================================
+   FLOATING WHATSAPP BUTTON (why_choose.html)
+========================================= */
+
+.whatsapp-float {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 99999;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-pulse {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid #25D366;
+  animation: whatsappPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.whatsapp-tooltip {
+  position: absolute;
+  right: 72px;
+  background: rgba(7, 20, 46, 0.92);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(7, 20, 46, 0.92);
+}
+
+.whatsapp-float:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    right: 18px;
+    bottom: 22px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .whatsapp-tooltip {
+    display: none;
+  }
+}

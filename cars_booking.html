@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Popular Cars in Vijayawada - Bezawada Car Rentals</title>
+
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="cars_booking.css">
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- ==========================================================================
+             1. SEARCH & BOOKING BAR (Zoomcar Style - 2 Options Only)
+             ========================================================================== -->
+        <section class="search-widget-container" id="searchWidget">
+
+            <!-- 2 Options Switcher Only -->
+            <div class="search-tabs" role="tablist">
+                <button class="search-tab-btn active" id="tabSelfDrive" type="button" role="tab" aria-selected="true">
+                    <div class="tab-title">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="9" rx="2" />
+                            <circle cx="7.5" cy="16.5" r="1.5" />
+                            <circle cx="16.5" cy="16.5" r="1.5" />
+                            <path d="M5 11l2-6h10l2 6" />
+                        </svg>
+                        Self Drive
+                    </div>
+                    <div class="tab-sub">Drive yourself with full freedom</div>
+                </button>
+
+                <button class="search-tab-btn" id="tabWithDriver" type="button" role="tab" aria-selected="false">
+                    <div class="tab-title">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Rent a Car (with driver)
+                    </div>
+                    <div class="tab-sub">Car with driver for easy travel anywhere</div>
+                </button>
+            </div>
+
+            <!-- Search Fields Card -->
+            <div class="search-box-card">
+                <form id="carSearchForm" onsubmit="event.preventDefault(); handleSearchSubmit();">
+                    <div class="search-fields-grid">
+
+                        <!-- Select Location in Vijayawada -->
+                        <div class="search-field" id="fieldLocation" tabindex="0">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                            </div>
+                            <div class="field-content">
+                                <span class="field-label">Select Location in Vijayawada</span>
+                                <select class="field-input" id="locationSelect" aria-label="Select Location in Vijayawada">
+                                    <option value="Benz Circle" selected>Benz Circle</option>
+                                    <option value="Vijayawada Railway Station">Vijayawada Railway Station</option>
+                                    <option value="Gannavaram Airport">Gannavaram Airport</option>
+                                    <option value="MG Road (Bandar Road)">MG Road (Bandar Road)</option>
+                                    <option value="Auto Nagar">Auto Nagar</option>
+                                    <option value="Governorpet / Besant Road">Governorpet / Besant Road</option>
+                                    <option value="Kanaka Durga Temple / One Town">Kanaka Durga Temple / One Town</option>
+                                    <option value="Enikepadu / Ramavarappadu">Enikepadu / Ramavarappadu</option>
+                                    <option value="Poranki / Penamaluru">Poranki / Penamaluru</option>
+                                    <option value="Bhavanipuram / Gollapudi">Bhavanipuram / Gollapudi</option>
+                                    <option value="Doorstep Delivery (Vijayawada)">Doorstep Delivery (Anywhere in Vijayawada)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Trip Start Date & Time -->
+                        <div class="search-field" id="fieldStart" tabindex="0">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
+                            <div class="field-content">
+                                <span class="field-label">Trip Start Date &amp; Time</span>
+                                <input type="datetime-local" class="field-input" id="tripStartDate" aria-label="Select Trip Start Date and Time">
+                            </div>
+                        </div>
+
+                        <!-- Trip End Date & Time -->
+                        <div class="search-field no-divider" id="fieldEnd" tabindex="0">
+                            <div class="field-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
+                            <div class="field-content">
+                                <span class="field-label">Trip End Date &amp; Time</span>
+                                <input type="datetime-local" class="field-input" id="tripEndDate" aria-label="Select Trip End Date and Time">
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="submit" class="btn-search-cars" id="btnSearchSubmit">
+                            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                            Search Cars
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+
+        </section>
+
+        <!-- ==========================================================================
+             2. POPULAR CARS IN VIJAYAWADA SECTION (Zoomcar Cards Grid)
+             ========================================================================== -->
+        <section class="cars-section" id="popularCarsSection">
+
+            <div class="cars-header">
+                <h2>Find Popular Cars in Vijayawada</h2>
+                <p>Choose from available self-drive cars in Vijayawada based on your location, travel dates, car type and trip requirements.</p>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="filter-pills-bar" role="tablist">
+                <button class="filter-pill active" data-category="all" type="button">All Cars</button>
+                <button class="filter-pill" data-category="automatic" type="button">Automatic</button>
+                <button class="filter-pill" data-category="manual" type="button">Manual</button>
+                <button class="filter-pill" data-category="home-delivery" type="button">Home Delivery</button>
+                <button class="filter-pill" data-category="hatchback" type="button">Hatchback</button>
+                <button class="filter-pill" data-category="suv" type="button">SUV</button>
+                <button class="filter-pill" data-category="sedan" type="button">Sedan</button>
+                <button class="filter-pill" data-category="muv" type="button">MUV / 7-Seater</button>
+                <button class="filter-pill" data-category="luxury" type="button">Luxury</button>
+                <button class="filter-pill" data-category="guest-fav" type="button">Guest Favorite</button>
+            </div>
+
+            <!-- Single Line Horizontal Slider with Round Navigation Buttons -->
+            <div class="cars-carousel-wrapper">
+
+                <button class="slider-round-btn prev-btn" id="sliderPrevBtn" aria-label="Previous Cars" type="button" onclick="scrollCarsSlider(-1)">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="cars-slider-track" id="carsSliderTrack">
+
+                    <!-- 1. Baleno -->
+                    <div class="car-card" data-category="hatchback home-delivery guest-fav manual" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/Baleno.jpeg" alt="Maruti Suzuki Baleno" class="img-align-baleno" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-green">
+                                ★ 4.87 (48)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Maruti Suzuki Baleno 2023</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹1,488/day</span>
+                                <span class="price-sub">₹1,850</span>
+                            </div>
+                            <div class="car-specs">Manual • Petrol • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Benz Circle, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Maruti Suzuki Baleno 2023', 'Starting ₹1,488/day', 'Manual • Petrol • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Professional Host • Verified Sanitized
+                        </div>
+                    </div>
+
+                    <!-- 2. Creta -->
+                    <div class="car-card" data-category="suv home-delivery guest-fav automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/CRETA.jpeg" alt="Hyundai Creta" class="img-align-creta" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-gold">
+                                ★ 4.95 (62)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Hyundai Creta SX 2024</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹2,499/day</span>
+                                <span class="price-sub">₹2,999</span>
+                            </div>
+                            <div class="car-specs">Automatic • Diesel • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>MG Road, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Hyundai Creta SX 2024', 'Starting ₹2,499/day', 'Automatic • Diesel • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Top Rated SUV • Instant Confirmation
+                        </div>
+                    </div>
+
+                    <!-- 3. Thar -->
+                    <div class="car-card" data-category="suv home-delivery manual" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/THAR.jpeg" alt="Mahindra Thar" class="img-align-thar" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-dark">
+                                ★ 4.91 (35)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Mahindra Thar 4x4 Hard Top</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹3,199/day</span>
+                                <span class="price-sub">₹3,750</span>
+                            </div>
+                            <div class="car-specs">Manual • Diesel 4x4 • 4 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Gannavaram / Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Mahindra Thar 4x4 Hard Top', 'Starting ₹3,199/day', 'Manual • Diesel 4x4 • 4 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Adventure 4x4 • Unlimited Kms Plan
+                        </div>
+                    </div>
+
+                    <!-- 4. Swift -->
+                    <div class="car-card" data-category="hatchback home-delivery manual" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/SWIFT.jpeg" alt="Maruti Suzuki Swift" class="img-align-swift" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-green">
+                                ★ 4.82 (55)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Maruti Suzuki Swift ZXi</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹1,399/day</span>
+                                <span class="price-sub">₹1,700</span>
+                            </div>
+                            <div class="car-specs">Manual • Petrol • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Railway Station, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Maruti Suzuki Swift ZXi', 'Starting ₹1,399/day', 'Manual • Petrol • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Budget Friendly • High Mileage
+                        </div>
+                    </div>
+
+                    <!-- 5. Innova Crysta -->
+                    <div class="car-card" data-category="muv home-delivery guest-fav automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/INNOVA CRYSTA.jpeg" alt="Toyota Innova Crysta" class="img-align-innova" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-gold">
+                                ★ 4.98 (80)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Toyota Innova Crysta 2.4 VX</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹3,899/day</span>
+                                <span class="price-sub">₹4,499</span>
+                            </div>
+                            <div class="car-specs">Automatic • Diesel • 7 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Benz Circle, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Toyota Innova Crysta 2.4 VX', 'Starting ₹3,899/day', 'Automatic • Diesel • 7 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Family Favorite • Ultimate Highway Comfort
+                        </div>
+                    </div>
+
+                    <!-- 6. Honda City -->
+                    <div class="car-card" data-category="sedan home-delivery automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/Honda City.jpeg" alt="Honda City" class="img-align-city" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-green">
+                                ★ 4.89 (41)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Honda City 5th Gen ZX</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹2,199/day</span>
+                                <span class="price-sub">₹2,600</span>
+                            </div>
+                            <div class="car-specs">CVT Automatic • Petrol • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Auto Nagar, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Honda City 5th Gen ZX', 'Starting ₹2,199/day', 'CVT Automatic • Petrol • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Executive Sedan • Sunroof &amp; Leather
+                        </div>
+                    </div>
+
+                    <!-- 7. Mercedes-Benz C220D -->
+                    <div class="car-card" data-category="luxury home-delivery automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/BENZ C220D.jpeg" alt="Mercedes-Benz C220D" class="img-align-benz" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-gold">
+                                ★ 5.00 (22)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Mercedes-Benz C220D</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹7,999/day</span>
+                                <span class="price-sub">₹9,500</span>
+                            </div>
+                            <div class="car-specs">9G-Tronic Auto • Diesel • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Chauffeur &amp; Self-Drive Delivery</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>VIP Delivery Across Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Mercedes-Benz C220D', 'Starting ₹7,999/day', '9G-Tronic Auto • Diesel • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Luxury Fleet • Weddings &amp; Events
+                        </div>
+                    </div>
+
+                    <!-- 8. BMW 320D -->
+                    <div class="car-card" data-category="luxury home-delivery automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/BMW 320D.jpeg" alt="BMW 320D" class="img-align-bmw" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-gold">
+                                ★ 4.96 (19)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">BMW 3 Series 320D</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹7,499/day</span>
+                                <span class="price-sub">₹8,900</span>
+                            </div>
+                            <div class="car-specs">Steptronic Auto • Diesel • 5 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Airport &amp; Vijayawada Hub</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('BMW 3 Series 320D', 'Starting ₹7,499/day', 'Steptronic Auto • Diesel • 5 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Sheer Driving Pleasure • Premium Sport
+                        </div>
+                    </div>
+
+                    <!-- 9. XUV700 -->
+                    <div class="car-card" data-category="suv muv home-delivery automatic" tabindex="0">
+                        <div class="card-media">
+                            <img src="cars/XUV700.jpeg" alt="Mahindra XUV700" class="img-align-xuv" loading="lazy">
+                            <button class="btn-wishlist" type="button" aria-label="Add to wishlist" onclick="toggleWishlist(this, event)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                            <div class="card-rating-badge rating-gold">
+                                ★ 4.93 (37)
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="car-title">Mahindra XUV700 AX7</h3>
+                            <div class="car-pricing-row">
+                                <span class="price-main">Starting ₹3,499/day</span>
+                                <span class="price-sub">₹4,100</span>
+                            </div>
+                            <div class="car-specs">Automatic • Diesel • 7 Seats</div>
+                            <div class="card-perks">
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Doorstep Delivery Available</span>
+                                </div>
+                                <div class="perk-item">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span>Benz Circle, Vijayawada</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button class="btn-book-card" type="button" onclick="bookCar('Mahindra XUV700 AX7', 'Starting ₹3,499/day', 'Automatic • Diesel • 7 Seats')">Book Now</button>
+                            </div>
+                        </div>
+                        <div class="host-badge-bar">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Panoramic Sunroof • ADAS Safety
+                    </div>
+
+                </div>
+
+                <button class="slider-round-btn next-btn" id="sliderNextBtn" aria-label="Next Cars" type="button" onclick="scrollCarsSlider(1)">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- ==========================================================================
+         3. HIGH-CONVERTING LUXURY CTA SECTION
+         ========================================================================== -->
+    <section class="booking-cta-section" aria-label="Book Car Rental Now">
+        <div class="cta-banner-card">
+            <div class="cta-content-wrapper">
+                <div class="cta-pill-tag">
+                    <span class="pulse-dot"></span>
+                    <span>Direct WhatsApp &amp; Doorstep Delivery</span>
+                </div>
+                
+                <h2 class="cta-title">
+                    Ready to Explore <span class="gradient-text">Vijayawada &amp; Beyond?</span>
+                </h2>
+                
+                <p class="cta-desc">
+                    Book your favorite self-drive car or chauffeur-driven ride in under 2 minutes. Enjoy zero security deposit options, unlimited kilometers, clean sanitized vehicles, and 24/7 on-road assistance.
+                </p>
+                
+                <div class="cta-actions-row">
+                    <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car." target="_blank" rel="noopener noreferrer" class="btn-cta-whatsapp" aria-label="Book via WhatsApp">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.582 1.777.822 2.806.822 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.805-5.767-5.805zm3.377 8.21c-.14.393-.715.753-1.009.799-.283.044-.645.064-1.04-.063-.585-.188-1.339-.533-2.316-1.511-.98-.98-1.325-1.734-1.514-2.32-.127-.395-.107-.757-.063-1.04.046-.294.406-.869.799-1.009.19-.068.396-.039.544.073l.87 1.258c.148.214.156.495.021.718l-.348.572c-.068.112-.083.247-.04.37.199.57.653 1.189 1.183 1.719.53.53 1.149.984 1.719 1.183.123.043.258.028.37-.04l.572-.348c.223-.135.504-.127.718.021l1.258.87c.112.148.141.354.073.544z"/>
+                            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.176L2 22l4.965-1.399C8.423 21.503 10.155 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.167-.47-4.464-1.284l-.32-.2-3.149.887.886-3.085-.207-.328C3.896 14.673 3.428 13.155 3.428 11.5 3.428 6.772 7.272 2.928 12 2.928 16.728 2.928 20.572 6.772 20.572 11.5 20.572 16.228 16.728 20 12 20z"/>
+                        </svg>
+                        <span>Book on WhatsApp</span>
+                    </a>
+
+                    <a href="tel:+919393093095" class="btn-cta-call" aria-label="Call Bezawada Car Rentals">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>Call +91 93930 93095</span>
+                    </a>
+                </div>
+
+                <div class="cta-features-grid">
+                    <div class="cta-feat-box">
+                        <div class="cta-feat-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div class="cta-feat-text">
+                            <strong>Zero Security Deposit</strong>
+                            <span>Flexible plans available</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-feat-box">
+                        <div class="cta-feat-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div class="cta-feat-text">
+                            <strong>30-Min Doorstep Delivery</strong>
+                            <span>Anywhere in Vijayawada</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-feat-box">
+                        <div class="cta-feat-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <div class="cta-feat-text">
+                            <strong>24/7 Road Assistance</strong>
+                            <span>Towing &amp; on-call support</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-feat-box">
+                        <div class="cta-feat-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <div class="cta-feat-text">
+                            <strong>100% Sanitized Fleet</strong>
+                            <span>Deep cleaned before every trip</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         4. SITE FOOTER
+         ========================================================================== -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-top-wrap">
+            <div class="footer-main-grid">
+                
+                <!-- Col 1: Brand Info -->
+                <div class="footer-brand-col">
+                    <a href="index.html" class="footer-logo-link">
+                        <img src="logo/logo.jpeg" alt="Bezawada Car Rentals Logo" class="footer-logo-img">
+                        <div class="footer-brand-title">
+                            BEZAWADA
+                            <span>CAR RENTALS</span>
+                        </div>
+                    </a>
+                    <p class="footer-about-text">
+                        Vijayawada's premier car rental agency providing self-drive cars and chauffeur-driven luxury rides with seamless doorstep delivery, well-maintained vehicles, and transparent pricing.
+                    </p>
+                    <div class="footer-contact-details">
+                        <a href="tel:+919393093095" class="footer-contact-row">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>+91 93930 93095 (Call &amp; WhatsApp)</span>
+                        </a>
+                        <a href="mailto:support@bezawadacarrentals.com" class="footer-contact-row">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            <span>support@bezawadacarrentals.com</span>
+                        </a>
+                        <a href="https://maps.app.goo.gl/FpaitXiBT1WkVSNq5" target="_blank" rel="noopener noreferrer" class="footer-contact-row" style="text-decoration: none; color: inherit;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span>48-19-2/2/GF, Vinayaka Temple Road, Kanuru, Vijayawada, AP - 520008</span>
+                        </a>
+                    </div>
+                    <div class="footer-social-links">
+                        <a href="https://wa.me/919393093095" target="_blank" rel="noopener" class="footer-social-btn" aria-label="WhatsApp">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.582 1.777.822 2.806.822 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.805-5.767-5.805zm3.377 8.21c-.14.393-.715.753-1.009.799-.283.044-.645.064-1.04-.063-.585-.188-1.339-.533-2.316-1.511-.98-.98-1.325-1.734-1.514-2.32-.127-.395-.107-.757-.063-1.04.046-.294.406-.869.799-1.009.19-.068.396-.039.544.073l.87 1.258c.148.214.156.495.021.718l-.348.572c-.068.112-.083.247-.04.37.199.57.653 1.189 1.183 1.719.53.53 1.149.984 1.719 1.183.123.043.258.028.37-.04l.572-.348c.223-.135.504-.127.718.021l1.258.87c.112.148.141.354.073.544z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.176L2 22l4.965-1.399C8.423 21.503 10.155 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.167-.47-4.464-1.284l-.32-.2-3.149.887.886-3.085-.207-.328C3.896 14.673 3.428 13.155 3.428 11.5 3.428 6.772 7.272 2.928 12 2.928 16.728 2.928 20.572 6.772 20.572 11.5 20.572 16.228 16.728 20 12 20z"/></svg>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#070B14"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Fleet & Rentals -->
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Our Fleet</h3>
+                    <ul class="footer-nav-list">
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Self-Drive Hatchbacks</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Compact &amp; Premium SUVs</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">7-Seater Family MUVs <span class="badge-mini">Popular</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Luxury Sedans (Benz, BMW)</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Mahindra Thar 4x4 <span class="badge-mini">Trending</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Chauffeur-Driven Cars</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Monthly Car Subscription</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Popular Hubs in Vijayawada -->
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Top Vijayawada Hubs</h3>
+                    <ul class="footer-nav-list">
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Benz Circle Hub</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Vijayawada Junction (BZA)</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Gannavaram Airport (VGA) <span class="badge-mini">24/7</span></a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">MG Road &amp; Governorpet</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Auto Nagar &amp; Poranki</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Kanaka Durga Temple</a></li>
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Mangalagiri / Amaravati</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Quick Links & Trust -->
+                <div class="footer-col">
+                    <h3 class="footer-col-title">Customer Care</h3>
+                    <ul class="footer-nav-list">
+                        <li><a href="javascript:void(0)" onclick="scrollToSearch()">Search Available Cars</a></li>
+                        <li><a href="why_choose.html">Why Choose Bezawada</a></li>
+                        <li><a href="best_places.html">Top Places to Visit</a></li>
+                        <li><a href="statistics.html">Customer Reviews &amp; Stats</a></li>
+                        <li><a href="https://wa.me/919393093095?text=Hi,%20I%20have%20a%20question%20regarding%20car%20rental" target="_blank" rel="noopener">24/7 Roadside Assistance</a></li>
+                        <li><a href="javascript:void(0)">Zero Deposit Terms</a></li>
+                        <li><a href="javascript:void(0)">FAQ &amp; Cancellation Policy</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Trust Badges Ribbon -->
+            <div class="footer-trust-strip">
+                <div class="footer-trust-item">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <div>
+                        <strong>Verified KYC &amp; Paperless</strong>
+                        <span>Book securely with Driving License</span>
+                    </div>
+                </div>
+
+                <div class="footer-trust-item">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <div>
+                        <strong>4.9 Star Rated Fleet</strong>
+                        <span>10,000+ Happy Trips Across AP</span>
+                    </div>
+                </div>
+
+                <div class="footer-trust-item">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <div>
+                        <strong>Instant Confirmation</strong>
+                        <span>Doorstep delivery in 30 minutes</span>
+                    </div>
+                </div>
+
+                <div class="footer-trust-item">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <div>
+                        <strong>24/7 Helpline</strong>
+                        <span>+91 93930 93095</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-inner">
+                <div class="footer-copyright">
+                    © 2026 Bezawada Car Rentals. All rights reserved. Built for seamless travel across Vijayawada &amp; Andhra Pradesh.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="javascript:void(0)">Privacy Policy</a>
+                    <a href="javascript:void(0)">Terms &amp; Conditions</a>
+                    <a href="javascript:void(0)">Refund &amp; Cancellation</a>
+                    <a href="javascript:void(0)">Security Deposit Policy</a>
+                    <button class="btn-back-to-top" type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                        <span>Top</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         5. STICKY BOTTOM FLOATING BAR (Reveals on Scroll Past Search Widget)
+         ========================================================================== -->
+    <div class="sticky-bottom-bar" id="stickyBottomBar" role="region" aria-label="Quick Booking Bar">
+        <div class="sticky-summary">
+            <span class="sticky-mode-tag" id="stickyModeTag">Self Drive</span>
+            <div class="sticky-dates">
+                <span class="sticky-dates-label">Selected Dates &amp; Hub</span>
+                <span class="sticky-dates-text" id="stickyDatesText">Vijayawada (Benz Circle) • Tomorrow, 09:00 AM → Day after, 09:00 PM</span>
+            </div>
+        </div>
+        <button class="sticky-btn-book" type="button" onclick="scrollToSearch()">
+            Book Now / Modify
+        </button>
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Tab Switching (2 Options Only: Self Drive & Rent a Car with Driver)
+            const tabSelfDrive = document.getElementById('tabSelfDrive');
+            const tabWithDriver = document.getElementById('tabWithDriver');
+            const stickyModeTag = document.getElementById('stickyModeTag');
+            const locationInput = document.getElementById('locationInput');
+
+            let currentMode = 'Self Drive';
+
+            tabSelfDrive.addEventListener('click', () => {
+                tabSelfDrive.classList.add('active');
+                tabSelfDrive.setAttribute('aria-selected', 'true');
+                tabWithDriver.classList.remove('active');
+                tabWithDriver.setAttribute('aria-selected', 'false');
+                currentMode = 'Self Drive';
+                stickyModeTag.textContent = 'Self Drive';
+                updateStickySummary();
+            });
+
+            tabWithDriver.addEventListener('click', () => {
+                tabWithDriver.classList.add('active');
+                tabWithDriver.setAttribute('aria-selected', 'true');
+                tabSelfDrive.classList.remove('active');
+                tabSelfDrive.setAttribute('aria-selected', 'false');
+                currentMode = 'With Driver';
+                stickyModeTag.textContent = 'Chauffeur Driven';
+                updateStickySummary();
+            });
+
+            // 2. Sticky Bottom Bar Trigger on Scroll
+            const searchWidget = document.getElementById('searchWidget');
+            const stickyBottomBar = document.getElementById('stickyBottomBar');
+
+            window.addEventListener('scroll', () => {
+                if (!searchWidget) return;
+                const rect = searchWidget.getBoundingClientRect();
+                // When search widget scrolls past the top, reveal bottom bar
+                if (rect.bottom < 100) {
+                    stickyBottomBar.classList.add('is-visible');
+                } else {
+                    stickyBottomBar.classList.remove('is-visible');
+                }
+            }, { passive: true });
+
+            // 3. Category Filter Pills
+            const filterPills = document.querySelectorAll('.filter-pill');
+            const carCards = document.querySelectorAll('.car-card');
+
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+
+                    const category = (pill.getAttribute('data-category') || 'all').toLowerCase();
+
+                    carCards.forEach(card => {
+                        const cardCats = (card.getAttribute('data-category') || '').toLowerCase();
+                        const catList = cardCats.split(/\s+/);
+                        if (category === 'all' || catList.includes(category)) {
+                            card.style.display = 'flex';
+                            card.style.animation = 'fadeIn 0.3s ease forwards';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 4. Card Click Selection Shadow
+            carCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.btn-wishlist') || e.target.closest('.btn-book-card')) {
+                        return;
+                    }
+                    const wasActive = card.classList.contains('is-active');
+                    carCards.forEach(c => c.classList.remove('is-active'));
+                    if (!wasActive) {
+                        card.classList.add('is-active');
+                    }
+                });
+            });
+
+            // 5. Initialize Date & Time Pickers with Local Dates
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(9, 0, 0, 0);
+
+            const dayAfter = new Date(now);
+            dayAfter.setDate(dayAfter.getDate() + 2);
+            dayAfter.setHours(21, 0, 0, 0);
+
+            function toLocalISO(dt) {
+                const pad = n => String(n).padStart(2, '0');
+                return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+            }
+
+            const locationSelect = document.getElementById('locationSelect');
+            const tripStartDate = document.getElementById('tripStartDate');
+            const tripEndDate = document.getElementById('tripEndDate');
+
+            if (tripStartDate) {
+                tripStartDate.min = toLocalISO(now);
+                tripStartDate.value = toLocalISO(tomorrow);
+            }
+            if (tripEndDate) {
+                tripEndDate.min = toLocalISO(tomorrow);
+                tripEndDate.value = toLocalISO(dayAfter);
+            }
+
+            function formatHumanDate(val) {
+                if (!val) return '';
+                const d = new Date(val);
+                if (isNaN(d.getTime())) return val;
+                return d.toLocaleString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+            }
+
+            function updateStickySummary() {
+                const loc = locationSelect ? locationSelect.value.trim() : 'Benz Circle';
+                const startStr = tripStartDate && tripStartDate.value ? formatHumanDate(tripStartDate.value) : 'Tomorrow, 09:00 AM';
+                const endStr = tripEndDate && tripEndDate.value ? formatHumanDate(tripEndDate.value) : 'Day after, 09:00 PM';
+                const text = `Vijayawada (${loc}) • ${startStr} → ${endStr}`;
+                document.getElementById('stickyDatesText').textContent = text;
+            }
+
+            if (locationSelect) locationSelect.addEventListener('change', updateStickySummary);
+            if (tripStartDate) tripStartDate.addEventListener('change', () => {
+                if (tripEndDate && tripEndDate.value < tripStartDate.value) {
+                    const newEnd = new Date(tripStartDate.value);
+                    newEnd.setDate(newEnd.getDate() + 1);
+                    tripEndDate.value = toLocalISO(newEnd);
+                }
+                updateStickySummary();
+            });
+            if (tripEndDate) tripEndDate.addEventListener('change', updateStickySummary);
+            updateStickySummary();
+        });
+
+        // Wishlist Toggle
+        function toggleWishlist(button, event) {
+            event.stopPropagation();
+            button.classList.toggle('liked');
+            const svg = button.querySelector('svg');
+            if (button.classList.contains('liked')) {
+                svg.setAttribute('fill', 'currentColor');
+            } else {
+                svg.setAttribute('fill', 'none');
+            }
+        }
+
+        // Horizontal Slider Scroll (Previous & Next)
+        function scrollCarsSlider(direction) {
+            const track = document.getElementById('carsSliderTrack');
+            if (track) {
+                const scrollOffset = 380 * direction;
+                track.scrollBy({ left: scrollOffset, behavior: 'smooth' });
+            }
+        }
+
+        // Scroll Back to Search Widget
+        function scrollToSearch() {
+            const carsSection = document.getElementById('popularCarsSection');
+            if (carsSection && !carsSection.classList.contains('is-active')) {
+                carsSection.classList.add('is-active');
+            }
+            const searchWidget = document.getElementById('searchWidget');
+            if (searchWidget) {
+                searchWidget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Search Form Submit Handler: Reveal cars section only on Search Cars click
+        function handleSearchSubmit() {
+            const carsSection = document.getElementById('popularCarsSection');
+            if (carsSection) {
+                carsSection.classList.add('is-active');
+                setTimeout(() => {
+                    carsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+            }
+        }
+
+        // Book Car Click Handler: Forward all details to WhatsApp 93930 93095
+        function bookCar(carName, price, specs) {
+            const tabSelfDrive = document.getElementById('tabSelfDrive');
+            const isSelfDrive = tabSelfDrive ? tabSelfDrive.classList.contains('active') : true;
+            const serviceType = isSelfDrive ? 'Self Drive' : 'Rent a Car (with driver)';
+            const locationSelect = document.getElementById('locationSelect');
+            const location = (locationSelect ? locationSelect.value : 'Benz Circle').trim() || 'Benz Circle';
+            
+            const tripStartDate = document.getElementById('tripStartDate');
+            const tripEndDate = document.getElementById('tripEndDate');
+
+            function formatForMsg(val, fallback) {
+                if (!val) return fallback;
+                const d = new Date(val);
+                if (isNaN(d.getTime())) return fallback;
+                return d.toLocaleString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+            }
+
+            const startDate = tripStartDate && tripStartDate.value ? formatForMsg(tripStartDate.value, 'Tomorrow, 09:00 AM') : 'Tomorrow, 09:00 AM';
+            const endDate = tripEndDate && tripEndDate.value ? formatForMsg(tripEndDate.value, 'Day after, 09:00 PM') : 'Day after, 09:00 PM';
+
+            const message = `Hello Bezawada Car Rentals! 🚗\n\nI would like to book a car with the following details:\n\n• Service Mode: ${serviceType}\n• Car Model: ${carName}\n• Rate: ${price || 'Standard Daily Rate'}\n• Specs: ${specs || 'Standard Features'}\n• Pick-up Location: ${location}, Vijayawada\n• Trip Start: ${startDate}\n• Trip End: ${endDate}\n\nPlease confirm availability and booking procedure. Thank you!`;
+
+            const whatsappUrl = `https://wa.me/919393093095?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+
+    <!-- =========================================
+         FLOATING WHATSAPP CTA
+         ========================================= -->
+    <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
+      target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat"
+      aria-label="Chat with Bezawada Car Rentals on WhatsApp">
+      <div class="whatsapp-pulse" aria-hidden="true"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#ffffff" aria-hidden="true">
+        <path
+          d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
+      </svg>
+      <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+</body>
+
+</html>

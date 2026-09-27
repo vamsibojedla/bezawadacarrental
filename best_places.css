@@ -1,0 +1,447 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body:not(:has(.hero-section)) {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FFFFFF;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================================
+   MAIN SECTION
+================================ */
+
+.places-section {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 60px 32px 50px;
+    overflow: hidden;
+}
+
+/* ================================
+   HEADING & HEADER
+================================ */
+
+.places-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.section-tag {
+    display: inline-block;
+    background-color: #E6F7F8;
+    color: #08919A;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(8, 145, 154, 0.2);
+}
+
+.places-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.6px;
+    line-height: 1.25;
+    margin-bottom: 14px;
+}
+
+.description {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #64748B;
+    margin-bottom: 20px;
+}
+
+/* Note Box */
+.note-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 10px 20px;
+    text-align: left;
+    margin-top: 4px;
+}
+
+.note-box svg {
+    color: #08919A;
+    flex-shrink: 0;
+}
+
+.note {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #475569;
+}
+
+.note strong {
+    color: #0F172A;
+    font-weight: 700;
+}
+
+/* ================================
+   CAROUSEL WRAPPER & MARQUEE
+================================ */
+
+.carousel-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0 20px;
+    position: relative;
+    /* Soft edge masks so cards fade gently as they enter/exit */
+    mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+}
+
+.marquee-track {
+    display: flex;
+    width: 100%;
+    overflow: visible;
+    user-select: none;
+    gap: 24px;
+}
+
+.marquee-group {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    animation: marqueeSlideLeft 36s linear infinite;
+    will-change: transform;
+}
+
+@keyframes marqueeSlideLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-100% - 24px));
+    }
+}
+
+/* Pause slowly and smoothly on hover or touch */
+.carousel-wrapper:hover .marquee-group,
+.marquee-track.is-paused .marquee-group {
+    animation-play-state: paused;
+}
+
+/* ================================
+   PLACE CARD
+================================ */
+
+.place-card {
+    position: relative;
+    flex: 0 0 320px;
+    width: 320px;
+    height: 440px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #0F172A;
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.place-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 36px -6px rgba(8, 145, 154, 0.28);
+}
+
+/* Image */
+.place-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.place-card:hover img {
+    transform: scale(1.08);
+}
+
+/* Top Badge */
+.card-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    z-index: 2;
+    letter-spacing: 0.2px;
+}
+
+/* Gradient Overlay */
+.card-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.2) 40%,
+        rgba(0, 0, 0, 0.85) 80%,
+        rgba(0, 0, 0, 0.95) 100%
+    );
+    z-index: 1;
+}
+
+/* Card Bottom Info */
+.card-info {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 22px;
+    z-index: 2;
+}
+
+.card-tag {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4FC5C5;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 5px;
+}
+
+.card-info h3 {
+    font-family: 'Outfit', sans-serif;
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.card-snippet {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.45;
+}
+
+/* ================================
+   MARQUEE CONTROLS / HINT
+================================ */
+
+.marquee-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.marquee-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #64748B;
+    background-color: #F8FAFC;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    border: 1px solid #E2E8F0;
+}
+
+.marquee-hint svg {
+    color: #08919A;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 991px) {
+    .places-section {
+        padding: 45px 20px 40px;
+    }
+
+    .places-header h1 {
+        font-size: 34px;
+    }
+
+    .description {
+        font-size: 15.5px;
+    }
+
+    .note-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .place-card {
+        flex: 0 0 290px;
+        height: 410px;
+    }
+
+    .card-info h3 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 640px) {
+    .places-section {
+        padding: 35px 16px 30px;
+    }
+
+    .places-header h1 {
+        font-size: 26px;
+        line-height: 1.25;
+    }
+
+    .description {
+        font-size: 14.5px;
+    }
+
+    .marquee-track {
+        gap: 16px;
+    }
+
+    .marquee-group {
+        gap: 16px;
+    }
+
+    .place-card {
+        flex: 0 0 260px;
+        width: 260px;
+        height: 380px;
+        border-radius: 16px;
+    }
+
+    .card-info h3 {
+        font-size: 20px;
+    }
+
+    .card-snippet {
+        font-size: 12.5px;
+    }
+}
+
+/* =========================================
+   FLOATING WHATSAPP BUTTON (best_places.html)
+========================================= */
+
+.whatsapp-float {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 99999;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-pulse {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid #25D366;
+  animation: whatsappPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.whatsapp-tooltip {
+  position: absolute;
+  right: 72px;
+  background: rgba(7, 20, 46, 0.92);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  border-width: 5px 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(7, 20, 46, 0.92);
+}
+
+.whatsapp-float:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    right: 18px;
+    bottom: 22px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .whatsapp-tooltip {
+    display: none;
+  }
+}
