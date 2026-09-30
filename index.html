@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5Z375W5P');</script>
+  <!-- End Google Tag Manager -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Primary Meta Tags -->
@@ -54,9 +62,324 @@
   <link rel="stylesheet" href="best_places.css">
   <link rel="stylesheet" href="why_choose.css">
   <link rel="stylesheet" href="testimonials.css">
+
+  <!-- Car Booking Popup Modal Styles -->
+  <style>
+    .booking-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+
+    .booking-modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .booking-modal-box {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 26px 24px 22px;
+      box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(226, 232, 240, 0.9);
+      transform: scale(0.92) translateY(12px);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 94vh;
+      overflow-y: auto;
+    }
+
+    .booking-modal-overlay.is-open .booking-modal-box {
+      transform: scale(1) translateY(0);
+    }
+
+    .btn-close-booking-modal {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .btn-close-booking-modal:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+      transform: rotate(90deg);
+    }
+
+    .booking-modal-header {
+      margin-bottom: 12px;
+      padding-right: 32px;
+    }
+
+    .booking-modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #E6F7F8;
+      color: #08919A;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+    }
+
+    .booking-modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 4px;
+    }
+
+    .booking-modal-desc {
+      font-size: 13px;
+      color: #64748B;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* Selected Car Preview Card */
+    .booking-selected-car-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #F0FDF4 0%, #E6F7F8 100%);
+      border: 1px solid #BBF7D0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin: 12px 0 14px;
+    }
+
+    .car-summary-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #0e8354;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .car-summary-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .car-summary-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .car-summary-top h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .car-summary-service-tag {
+      background: #0e8354;
+      color: #FFFFFF;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .car-summary-specs {
+      font-size: 12px;
+      color: #475569;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Error alert */
+    .booking-modal-error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #DC2626;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    /* Form Groups */
+    .booking-modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .booking-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .booking-form-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .booking-form-label svg {
+      color: #08919A;
+    }
+
+    .required-star {
+      color: #EF4444;
+    }
+
+    .booking-form-input {
+      width: 100%;
+      height: 42px;
+      padding: 8px 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: #0F172A;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 11px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .booking-form-input:focus {
+      background: #FFFFFF;
+      border-color: #0e8354;
+      box-shadow: 0 0 0 3px rgba(14, 131, 84, 0.15);
+    }
+
+    .booking-form-input::placeholder {
+      color: #94A3B8;
+      font-size: 13px;
+    }
+
+    /* Modal Actions */
+    .booking-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-booking-clear {
+      flex: 1;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #F1F5F9;
+      color: #475569;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-booking-clear:hover {
+      background: #E2E8F0;
+      color: #1E293B;
+      border-color: #94A3B8;
+    }
+
+    .btn-booking-proceed {
+      flex: 2;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0e8354 0%, #096841 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(14, 131, 84, 0.32);
+      transition: all 0.22s ease;
+    }
+
+    .btn-booking-proceed:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(14, 131, 84, 0.42);
+      filter: brightness(1.05);
+    }
+
+    .btn-booking-proceed:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      .booking-modal-box {
+        padding: 22px 18px 20px;
+        border-radius: 18px;
+      }
+
+      .booking-modal-title {
+        font-size: 20px;
+      }
+
+      .booking-modal-actions {
+        flex-direction: row;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Z375W5P"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- ==========================================================================
        SECTION 1: INDEX.HTML (Site Header, Mobile Drawer, Hero Banner & Revv Showcase)
@@ -156,7 +479,7 @@
         <h2 class="location-title"></h2>
 
         <div class="hero-description">
-          <strong>Self Drive Cars & Car Travel</strong>
+          <strong> Best Self Drive Cars & Travels in Vijayawada</strong>
         </div>
 
         <!-- BUTTON -->
@@ -2277,7 +2600,7 @@
     <div class="drivers-container">
 
       <div class="drivers-header">
-        <span class="drivers-badge">CERTIFIED DRIVER SERVICE</span>
+        <span class="drivers-badge">Rentals with experience drivers</span>
         <h2>Verified, Certified &amp; Experienced Drivers in Vijayawada</h2>
         <p class="drivers-subtitle">
           Travel with total confidence and peace of mind. Every chauffeur in our professional team is police-verified,
@@ -2357,7 +2680,7 @@
 
             <div class="drivers-card-bottom">
               <div class="driver-action-info">
-                <span class="action-caption">CAR WITH EXPERIENCED DRIVER</span>
+                <span class="action-caption">RENTALS WITH EXPERIENCED DRIVERS</span>
                 <span class="action-highlight">Available 24/7 on Demand</span>
               </div>
 
@@ -2369,7 +2692,7 @@
                     <path
                       d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
                   </svg>
-                  <span>Book Driver via WhatsApp</span>
+                  <span>Book Now</span>
                 </a>
 
                 <a href="tel:+919393093095" class="btn-driver-call"
@@ -2779,701 +3102,998 @@
 
     </div>
 
-  </section>
-
-  <!-- Video Testimonial Modal Dialog -->
-  <div class="video-modal-overlay" id="videoModalOverlay" role="dialog" aria-modal="true" aria-hidden="true"
-    onclick="handleModalBackdropClick(event)">
-    <div class="video-modal-box">
-      <button class="btn-close-modal" type="button" aria-label="Close video" onclick="closeVideoModal()">
-        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-      <div class="video-player-container">
-        <video id="modalVideoPlayer" controls playsinline preload="auto" poster="">
-          <source id="modalVideoSource" src="" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <iframe id="modalVideoIframe" style="display:none;" src="" title="Customer Road Trip Video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
-      <div class="video-modal-footer">
-        <div class="modal-author-info">
-          <h4 id="modalCustomerName">Customer Story</h4>
-          <p>
-            <span class="modal-tag" id="modalCarModel">Toyota Innova</span> •
-            <span id="modalTripRoute">Hyderabad Road Trip</span> •
-            <span style="color:#F59E0B;">★★★★★</span>
-          </p>
-          <p id="modalQuoteSnippet" style="margin-top:6px; color:#E2E8F0; font-size:13px; font-style:italic;"></p>
-        </div>
-        <a href="javascript:void(0)" onclick="closeVideoModal(); scrollToBooking();" class="btn-modal-book-now">
-          Book This Car
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
-            <polyline points="9 18 15 12 9 6"></polyline>
+    <!-- Car Booking Details Modal Dialog (Cars List Section) -->
+    <div class="booking-modal-overlay" id="carBookingModalOverlay" role="dialog" aria-modal="true" aria-hidden="true"
+      onclick="handleBookingModalBackdropClick(event)">
+      <div class="booking-modal-box">
+        <!-- Close Button -->
+        <button class="btn-close-booking-modal" type="button" aria-label="Close booking modal"
+          onclick="closeCarBookingModal()">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
-        </a>
+        </button>
+
+        <!-- Modal Header -->
+        <div class="booking-modal-header">
+          <span class="booking-modal-badge">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+              <circle cx="7" cy="17" r="2" />
+              <circle cx="17" cy="17" r="2" />
+            </svg>
+            Bezawada Direct Booking
+          </span>
+          <h3 class="booking-modal-title">Book Your Car</h3>
+          <p class="booking-modal-desc">Please provide your trip details below to proceed with your booking.</p>
+        </div>
+
+        <!-- Selected Car Card Info -->
+        <div class="booking-selected-car-card">
+          <div class="car-summary-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M5 17h14m-14 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm14 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-15-7h16l-2-5H6l-2 5z" />
+            </svg>
+          </div>
+          <div class="car-summary-details">
+            <div class="car-summary-top">
+              <h4 id="bookingModalCarTitle">Selected Car</h4>
+              <span class="car-summary-service-tag" id="bookingModalServiceBadge">Self Drive</span>
+            </div>
+            <p class="car-summary-specs" id="bookingModalCarSpecs">Manual • Petrol • 5 Seats</p>
+          </div>
+        </div>
+
+        <!-- Form Error Alert -->
+        <div class="booking-modal-error" id="bookingModalError" style="display:none;" role="alert"></div>
+
+        <!-- Booking Form -->
+        <form class="booking-modal-form" id="bookingModalForm"
+          onsubmit="event.preventDefault(); handleBookingProceed();">
+          <!-- 1. Name -->
+          <div class="booking-form-group">
+            <label for="bookingModalName" class="booking-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Full Name <span class="required-star">*</span>
+            </label>
+            <input type="text" id="bookingModalName" name="name" class="booking-form-input"
+              placeholder="Enter your full name" autocomplete="name" required>
+          </div>
+
+          <!-- 2. Mobile -->
+          <div class="booking-form-group">
+            <label for="bookingModalMobile" class="booking-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
+              Mobile Number <span class="required-star">*</span>
+            </label>
+            <input type="tel" id="bookingModalMobile" name="mobile" class="booking-form-input"
+              placeholder="Enter 10-digit mobile number" maxlength="10" autocomplete="tel" required>
+          </div>
+
+          <!-- 3. Place -->
+          <div class="booking-form-group">
+            <label for="bookingModalPlace" class="booking-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Pick-up Place <span class="required-star">*</span>
+            </label>
+            <input type="text" id="bookingModalPlace" name="place" class="booking-form-input"
+              placeholder="e.g. Benz Circle, Airport, Railway Station..." required>
+          </div>
+
+          <!-- 4. Date -->
+          <div class="booking-form-group">
+            <label for="bookingModalDate" class="booking-form-label">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Journey Date <span class="required-star">*</span>
+            </label>
+            <input type="date" id="bookingModalDate" name="date" class="booking-form-input" required>
+          </div>
+
+          <!-- Modal Actions: Clear & Proceed Now -->
+          <div class="booking-modal-actions">
+            <button type="button" class="btn-booking-clear" id="btnBookingClear" onclick="clearCarBookingForm()">
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+                <path
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              <span>Clear</span>
+            </button>
+
+            <button type="submit" class="btn-booking-proceed" id="btnBookingProceed">
+              <span>Proceed Now</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
 
-  <!-- ==========================================================================
+    <!-- Video Testimonial Modal Dialog -->
+    <div class="video-modal-overlay" id="videoModalOverlay" role="dialog" aria-modal="true" aria-hidden="true"
+      onclick="handleModalBackdropClick(event)">
+      <div class="video-modal-box">
+        <button class="btn-close-modal" type="button" aria-label="Close video" onclick="closeVideoModal()">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="video-player-container">
+          <video id="modalVideoPlayer" controls playsinline preload="auto" poster="">
+            <source id="modalVideoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <iframe id="modalVideoIframe" style="display:none;" src="" title="Customer Road Trip Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <div class="video-modal-footer">
+          <div class="modal-author-info">
+            <h4 id="modalCustomerName">Customer Story</h4>
+            <p>
+              <span class="modal-tag" id="modalCarModel">Toyota Innova</span> •
+              <span id="modalTripRoute">Hyderabad Road Trip</span> •
+              <span style="color:#F59E0B;">★★★★★</span>
+            </p>
+            <p id="modalQuoteSnippet" style="margin-top:6px; color:#E2E8F0; font-size:13px; font-style:italic;"></p>
+          </div>
+          <a href="javascript:void(0)" onclick="closeVideoModal(); scrollToBooking();" class="btn-modal-book-now">
+            Book This Car
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
        SECTION 7: CTA SECTION (Ready to Explore Vijayawada & Beyond? Direct WhatsApp & 24/7 Call)
        ========================================================================== -->
-  <section class="booking-cta-section" id="ctaSection" aria-label="Book Car Rental Now">
-    <div class="cta-banner-card">
-      <div class="cta-content-wrapper">
-        <div class="cta-pill-tag">
-          <span class="pulse-dot"></span>
-          <span>Chat on WhatsApp and &amp; get your car delivered.</span>
-        </div>
+    <section class="booking-cta-section" id="ctaSection" aria-label="Book Car Rental Now">
+      <div class="cta-banner-card">
+        <div class="cta-content-wrapper">
+          <div class="cta-pill-tag">
+            <span class="pulse-dot"></span>
+            <span>Chat on WhatsApp and &amp; get your car delivered.</span>
+          </div>
 
-        <h2 class="cta-title">
-          Ready to Explore <span class="gradient-text">Vijayawada &amp; Beyond?</span>
-        </h2>
+          <h2 class="cta-title">
+            Ready to Explore <span class="gradient-text">Vijayawada &amp; Beyond?</span>
+          </h2>
 
-        <p class="cta-desc">
-          Book your favorite car for self-drive or with a driver in just 2 minutes.
-          Enjoy zero security deposit, unlimited kilometers, clean and sanitized cars, and 24/7 roadside help.
-        </p>
-
-        <div class="cta-actions-row">
-          <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
-            target="_blank" rel="noopener noreferrer" class="btn-cta-whatsapp" aria-label="Book via WhatsApp">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <path
-                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.582 1.777.822 2.806.822 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.805-5.767-5.805zm3.377 8.21c-.14.393-.715.753-1.009.799-.283.044-.645.064-1.04-.063-.585-.188-1.339-.533-2.316-1.511-.98-.98-1.325-1.734-1.514-2.32-.127-.395-.107-.757-.063-1.04.046-.294.406-.869.799-1.009.19-.068.396-.039.544.073l.87 1.258c.148.214.156.495.021.718l-.348.572c-.068.112-.083.247-.04.37.199.57.653 1.189 1.183 1.719.53.53 1.149.984 1.719 1.183.123.043.258.028.37-.04l.572-.348c.223-.135.504-.127.718.021l1.258.87c.112.148.141.354.073.544z" />
-              <path
-                d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.176L2 22l4.965-1.399C8.423 21.503 10.155 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.167-.47-4.464-1.284l-.32-.2-3.149.887.886-3.085-.207-.328C3.896 14.673 3.428 13.155 3.428 11.5 3.428 6.772 7.272 2.928 12 2.928 16.728 2.928 20.572 6.772 20.572 11.5 20.572 16.228 16.728 20 12 20z" />
-            </svg>
-            <span>Book on WhatsApp</span>
-          </a>
-
-          <a href="tel:+919393093095" class="btn-cta-call" aria-label="Call Bezawada Car Rentals">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-              </path>
-            </svg>
-            <span>Call Now</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       SECTION 7: FOOTER SECTION (4 Columns, Trust Ribbon, Copyright & Back to Top)
-       ========================================================================== -->
-  <footer class="site-footer" id="siteFooter" role="contentinfo">
-    <div class="footer-top-wrap">
-      <div class="footer-main-grid">
-
-        <!-- Col 1: Brand Info -->
-        <div class="footer-brand-col">
-          <a href="index.html" class="footer-logo-link">
-            <img src="logo/logo.jpeg" alt="Bezawada Car Rentals Logo" class="footer-logo-img">
-            <div class="footer-brand-title">
-              BEZAWADA
-              <span>CAR RENTALS</span>
-            </div>
-          </a>
-          <p class="footer-about-text">
-            Vijayawada's premier car rental agency providing self-drive cars and Car with Driver luxury rides with
-            seamless doorstep delivery, well-maintained vehicles, and transparent pricing.
+          <p class="cta-desc">
+            Book your favorite car for self-drive or with a driver in just 2 minutes.
+            Enjoy zero security deposit, unlimited kilometers, clean and sanitized cars, and 24/7 roadside help.
           </p>
-        </div>
 
-        <!-- Col 2: Fleet & Rentals -->
-        <div class="footer-col">
-          <h3 class="footer-col-title">Company</h3>
-          <ul class="footer-nav-list">
-
-            <li><a href="terms.html">Terms and Conditions </a></li>
-            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a href="disclaimer.html">Disclaimer</a></li>
-          </ul>
-        </div>
-
-
-        <div class="footer-col">
-          <h3 class="footer-col-title">Follow Us</h3>
-          <div class="footer-social-links">
-            <a href="https://wa.me/919393093095" target="_blank" rel="noopener" class="footer-social-btn"
-              aria-label="WhatsApp">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <div class="cta-actions-row">
+            <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
+              target="_blank" rel="noopener noreferrer" class="btn-cta-whatsapp" aria-label="Book via WhatsApp">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                 <path
                   d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.582 1.777.822 2.806.822 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.805-5.767-5.805zm3.377 8.21c-.14.393-.715.753-1.009.799-.283.044-.645.064-1.04-.063-.585-.188-1.339-.533-2.316-1.511-.98-.98-1.325-1.734-1.514-2.32-.127-.395-.107-.757-.063-1.04.046-.294.406-.869.799-1.009.19-.068.396-.039.544.073l.87 1.258c.148.214.156.495.021.718l-.348.572c-.068.112-.083.247-.04.37.199.57.653 1.189 1.183 1.719.53.53 1.149.984 1.719 1.183.123.043.258.028.37-.04l.572-.348c.223-.135.504-.127.718.021l1.258.87c.112.148.141.354.073.544z" />
                 <path
                   d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.176L2 22l4.965-1.399C8.423 21.503 10.155 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.167-.47-4.464-1.284l-.32-.2-3.149.887.886-3.085-.207-.328C3.896 14.673 3.428 13.155 3.428 11.5 3.428 6.772 7.272 2.928 12 2.928 16.728 2.928 20.572 6.772 20.572 11.5 20.572 16.228 16.728 20 12 20z" />
               </svg>
+              <span>Book on WhatsApp</span>
             </a>
-            <a href="https://www.instagram.com/bezawada_carrentals/" target="_blank" rel="noopener"
-              class="footer-social-btn" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+
+            <a href="tel:+919393093095" class="btn-cta-call" aria-label="Call Bezawada Car Rentals">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"
                 stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn"
-              aria-label="Facebook">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                 <path
-                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
-                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#070B14" />
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
               </svg>
+              <span>Call Now</span>
             </a>
           </div>
         </div>
+      </div>
+      </div>
+    </section>
 
-        <div class="footer-col">
-          <h3 class="footer-col-title">Get In Touch</h3>
-          <!-- Header Right CTA Buttons -->
-          <a href="tel:+919393093095" class="action-btn hotline-btn" title="Call Bezawada Car Rentals">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-              </path>
-            </svg>
-            <span class="hotline-text"> Call Us </span>
-          </a>
+    <!-- ==========================================================================
+       SECTION 7: FOOTER SECTION (4 Columns, Trust Ribbon, Copyright & Back to Top)
+       ========================================================================== -->
+    <footer class="site-footer" id="siteFooter" role="contentinfo">
+      <div class="footer-top-wrap">
+        <div class="footer-main-grid">
 
+          <!-- Col 1: Brand Info -->
+          <div class="footer-brand-col">
+            <a href="index.html" class="footer-logo-link">
+              <img src="logo/logo.jpeg" alt="Bezawada Car Rentals Logo" class="footer-logo-img">
+              <div class="footer-brand-title">
+                BEZAWADA
+                <span>CAR RENTALS</span>
+              </div>
+            </a>
+            <p class="footer-about-text">
+              Vijayawada's premier car rental agency providing self-drive cars and Car with Driver luxury rides with
+              seamless doorstep delivery, well-maintained vehicles, and transparent pricing.
+            </p>
+          </div>
+
+          <!-- Col 2: Fleet & Rentals -->
+          <div class="footer-col">
+            <h3 class="footer-col-title">Company</h3>
+            <ul class="footer-nav-list">
+
+              <li><a href="terms.html">Terms and Conditions </a></li>
+              <li><a href="privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="disclaimer.html">Disclaimer</a></li>
+            </ul>
+          </div>
+
+
+          <div class="footer-col">
+            <h3 class="footer-col-title">Follow Us</h3>
+            <div class="footer-social-links">
+              <a href="https://wa.me/919393093095" target="_blank" rel="noopener" class="footer-social-btn"
+                aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path
+                    d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.582 1.777.822 2.806.822 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.805-5.767-5.805zm3.377 8.21c-.14.393-.715.753-1.009.799-.283.044-.645.064-1.04-.063-.585-.188-1.339-.533-2.316-1.511-.98-.98-1.325-1.734-1.514-2.32-.127-.395-.107-.757-.063-1.04.046-.294.406-.869.799-1.009.19-.068.396-.039.544.073l.87 1.258c.148.214.156.495.021.718l-.348.572c-.068.112-.083.247-.04.37.199.57.653 1.189 1.183 1.719.53.53 1.149.984 1.719 1.183.123.043.258.028.37-.04l.572-.348c.223-.135.504-.127.718.021l1.258.87c.112.148.141.354.073.544z" />
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.176L2 22l4.965-1.399C8.423 21.503 10.155 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.637 0-3.167-.47-4.464-1.284l-.32-.2-3.149.887.886-3.085-.207-.328C3.896 14.673 3.428 13.155 3.428 11.5 3.428 6.772 7.272 2.928 12 2.928 16.728 2.928 20.572 6.772 20.572 11.5 20.572 16.228 16.728 20 12 20z" />
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/bezawada_carrentals/" target="_blank" rel="noopener"
+                class="footer-social-btn" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener" class="footer-social-btn"
+                aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn"
+                aria-label="YouTube">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path
+                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#070B14" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-col-title">Get In Touch</h3>
+            <!-- Header Right CTA Buttons -->
+            <a href="tel:+919393093095" class="action-btn hotline-btn" title="Call Bezawada Car Rentals">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
+              <span class="hotline-text"> Call Us </span>
+            </a>
+
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Footer Bottom Bar -->
-    <div class="footer-bottom-bar">
-      <div class="footer-bottom-inner">
-        <div class="footer-copyright" style="color: #E2E8F0;">
-          © 2026 Bezawada Car Rentals. All rights reserved.
-        </div>
-        <div class="footer-bottom-links" style="color: #E2E8F0;">
-          <p>Design & Developed by : <a href="https://www.peakoo.agency" target="_blank">
-              <b>Peakoo Agency</b></a>
-          </p>
-          <button class="btn-back-to-top" type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            aria-label="Back to top">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
-            <span>TOP</span>
-          </button>
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-bottom-inner">
+          <div class="footer-copyright" style="color: #E2E8F0;">
+            © 2026 Bezawada Car Rentals. All rights reserved.
+          </div>
+          <div class="footer-bottom-links" style="color: #E2E8F0;">
+            <p>Design & Developed by : <a href="https://www.peakoo.agency" target="_blank">
+                <b>Peakoo Agency</b></a>
+            </p>
+            <button class="btn-back-to-top" type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+              aria-label="Back to top">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>TOP</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
-  <!-- Interactive JavaScript -->
-  <script src="js/main.js"></script>
+    </footer>
+    <!-- Interactive JavaScript -->
+    <script src="js/main.js"></script>
 
-  <script>
-    let currentServiceMode = 'Self Drive';
+    <script>
+      let currentServiceMode = 'Self Drive';
 
-    function setBookingMode(mode) {
-      currentServiceMode = mode;
-      const isSelf = mode === 'Self Drive';
+      function setBookingMode(mode) {
+        currentServiceMode = mode;
+        const isSelf = mode === 'Self Drive';
 
-      // Update Hero action card glider and active states
-      const heroCard = document.getElementById('heroTabsCard');
-      const tabSelf = document.getElementById('tabSelfDrive');
-      const tabDriver = document.getElementById('tabWithDriver');
-      if (heroCard) {
-        heroCard.classList.toggle('mode-driver', !isSelf);
-      }
-      if (tabSelf && tabDriver) {
-        tabSelf.classList.toggle('active', isSelf);
-        tabSelf.setAttribute('aria-selected', isSelf ? 'true' : 'false');
-        tabDriver.classList.toggle('active', !isSelf);
-        tabDriver.setAttribute('aria-selected', !isSelf ? 'true' : 'false');
-      }
+        // Update Hero action card glider and active states
+        const heroCard = document.getElementById('heroTabsCard');
+        const tabSelf = document.getElementById('tabSelfDrive');
+        const tabDriver = document.getElementById('tabWithDriver');
+        if (heroCard) {
+          heroCard.classList.toggle('mode-driver', !isSelf);
+        }
+        if (tabSelf && tabDriver) {
+          tabSelf.classList.toggle('active', isSelf);
+          tabSelf.setAttribute('aria-selected', isSelf ? 'true' : 'false');
+          tabDriver.classList.toggle('active', !isSelf);
+          tabDriver.setAttribute('aria-selected', !isSelf ? 'true' : 'false');
+        }
 
-      // Update Floating scroll action card glider and active states
-      const scrollCard = document.getElementById('scrollTabsCard');
-      const scrollSelf = document.getElementById('scrollTabSelfDrive');
-      const scrollDriver = document.getElementById('scrollTabWithDriver');
-      if (scrollCard) {
-        scrollCard.classList.toggle('mode-driver', !isSelf);
-      }
-      if (scrollSelf && scrollDriver) {
-        scrollSelf.classList.toggle('active', isSelf);
-        scrollDriver.classList.toggle('active', !isSelf);
-      }
+        // Update Floating scroll action card glider and active states
+        const scrollCard = document.getElementById('scrollTabsCard');
+        const scrollSelf = document.getElementById('scrollTabSelfDrive');
+        const scrollDriver = document.getElementById('scrollTabWithDriver');
+        if (scrollCard) {
+          scrollCard.classList.toggle('mode-driver', !isSelf);
+        }
+        if (scrollSelf && scrollDriver) {
+          scrollSelf.classList.toggle('active', isSelf);
+          scrollDriver.classList.toggle('active', !isSelf);
+        }
 
-      // Toggle tracks in the same slider list
-      const carsTrack = document.getElementById('carsSliderTrack');
-      const driverTrack = document.getElementById('driverSliderTrack');
-      const selfPills = document.getElementById('selfDriveFilterPills');
-      const driverPills = document.getElementById('driverFilterPills');
-      const sectionHeading = document.getElementById('popularCarsHeading');
-      const sectionSubtitle = document.getElementById('popularCarsSubtitle');
-      const bannerContent = document.getElementById('sliderBannerContent');
-      const bannerBtn = document.getElementById('sliderBannerBtn');
+        // Toggle tracks in the same slider list
+        const carsTrack = document.getElementById('carsSliderTrack');
+        const driverTrack = document.getElementById('driverSliderTrack');
+        const selfPills = document.getElementById('selfDriveFilterPills');
+        const driverPills = document.getElementById('driverFilterPills');
+        const sectionHeading = document.getElementById('popularCarsHeading');
+        const sectionSubtitle = document.getElementById('popularCarsSubtitle');
+        const bannerContent = document.getElementById('sliderBannerContent');
+        const bannerBtn = document.getElementById('sliderBannerBtn');
 
-      if (carsTrack && driverTrack) {
-        if (isSelf) {
-          carsTrack.style.display = 'flex';
-          driverTrack.style.display = 'none';
-          carsTrack.scrollLeft = 0;
-          if (selfPills) selfPills.style.display = 'flex';
-          if (driverPills) driverPills.style.display = 'none';
-          if (sectionHeading) sectionHeading.textContent = 'Find Popular Self Drive Cars in Vijayawada';
-          if (sectionSubtitle) sectionSubtitle.textContent = 'Choose from 24 available verified self-drive hatchbacks, sedans, SUVs and luxury cars in Vijayawada.';
-          if (bannerContent) {
-            bannerContent.innerHTML = `
+        if (carsTrack && driverTrack) {
+          if (isSelf) {
+            carsTrack.style.display = 'flex';
+            driverTrack.style.display = 'none';
+            carsTrack.scrollLeft = 0;
+            if (selfPills) selfPills.style.display = 'flex';
+            if (driverPills) driverPills.style.display = 'none';
+            if (sectionHeading) sectionHeading.textContent = 'Find Popular Self Drive Cars in Vijayawada';
+            if (sectionSubtitle) sectionSubtitle.textContent = 'Choose from 24 available verified self-drive hatchbacks, sedans, SUVs and luxury cars in Vijayawada.';
+            if (bannerContent) {
+              bannerContent.innerHTML = `
               <span class="driver-banner-badge">CAR WITH DRIVER PACKAGES</span>
               <h3>Need a certified Car with Driver for local or outstation?</h3>
               <p>Book local 8h/12h hourly packages &amp; outstation trips from ₹13/km with Certified Driver.</p>
             `;
-          }
-          if (bannerBtn) {
-            bannerBtn.innerHTML = `
+            }
+            if (bannerBtn) {
+              bannerBtn.innerHTML = `
               View Driver Packages
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             `;
-            bannerBtn.onclick = function () { setBookingMode('With Driver'); scrollToBooking(); };
-          }
-        } else {
-          carsTrack.style.display = 'none';
-          driverTrack.style.display = 'flex';
-          driverTrack.scrollLeft = 0;
-          if (selfPills) selfPills.style.display = 'none';
-          if (driverPills) driverPills.style.display = 'flex';
-          if (sectionHeading) sectionHeading.textContent = 'Car with Driver Packages in Vijayawada';
-          if (sectionSubtitle) sectionSubtitle.textContent = 'Transparent hourly packages & outstation rates with certified professional drivers. Zero hidden charges.';
-          if (bannerContent) {
-            bannerContent.innerHTML = `
+              bannerBtn.onclick = function () { setBookingMode('With Driver'); scrollToBooking(); };
+            }
+          } else {
+            carsTrack.style.display = 'none';
+            driverTrack.style.display = 'flex';
+            driverTrack.scrollLeft = 0;
+            if (selfPills) selfPills.style.display = 'none';
+            if (driverPills) driverPills.style.display = 'flex';
+            if (sectionHeading) sectionHeading.textContent = 'Car with Driver Packages in Vijayawada';
+            if (sectionSubtitle) sectionSubtitle.textContent = 'Transparent hourly packages & outstation rates with certified professional drivers. Zero hidden charges.';
+            if (bannerContent) {
+              bannerContent.innerHTML = `
               <span class="driver-banner-badge" style="background:#08919A;color:#fff;">SELF DRIVE FLEET</span>
               <h3>Prefer driving yourself across Andhra Pradesh?</h3>
               <p>Choose from 24 self-drive cars with doorstep delivery and unlimited kilometers freedom.</p>
             `;
-          }
-          if (bannerBtn) {
-            bannerBtn.innerHTML = `
+            }
+            if (bannerBtn) {
+              bannerBtn.innerHTML = `
               View Self Drive Cars
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             `;
-            bannerBtn.onclick = function () { setBookingMode('Self Drive'); scrollToBooking(); };
+              bannerBtn.onclick = function () { setBookingMode('Self Drive'); scrollToBooking(); };
+            }
           }
         }
-      }
 
-      if (typeof updateFloatingActionsVisibility === 'function') {
-        updateFloatingActionsVisibility();
-      }
-    }
-
-    let updateFloatingActionsVisibility = function () { };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Floating Bottom Actions Trigger on Scroll
-      const heroActions = document.getElementById('searchWidget');
-      const floatingScrollActions = document.getElementById('floatingScrollActions');
-
-      updateFloatingActionsVisibility = function () {
-        if (!floatingScrollActions) return;
-        const activeSection = document.getElementById('popularCarsSection');
-        if (!activeSection) return;
-
-        const scrollY = window.scrollY || window.pageYOffset;
-        const sectionRect = activeSection.getBoundingClientRect();
-
-        // Scrolled down from hero section
-        const heroThreshold = heroActions ? (heroActions.offsetTop + heroActions.offsetHeight / 2) : 250;
-        const hasScrolledDownFromHero = scrollY >= heroThreshold;
-
-        // Still viewing active cars section
-        const isNotBelowSection = sectionRect.bottom >= 150;
-
-        if (hasScrolledDownFromHero && isNotBelowSection) {
-          floatingScrollActions.classList.add('is-visible');
-        } else {
-          floatingScrollActions.classList.remove('is-visible');
+        if (typeof updateFloatingActionsVisibility === 'function') {
+          updateFloatingActionsVisibility();
         }
-      };
+      }
 
-      window.addEventListener('scroll', updateFloatingActionsVisibility, { passive: true });
-      window.addEventListener('resize', updateFloatingActionsVisibility, { passive: true });
-      updateFloatingActionsVisibility();
+      let updateFloatingActionsVisibility = function () { };
 
-      // 2. Category Filter Pills Setup for Self Drive & Driver Packages
-      const setupFilterPills = (containerId, trackId) => {
-        const container = document.getElementById(containerId);
-        const track = document.getElementById(trackId);
-        if (!container || !track) return;
-        const pills = container.querySelectorAll('.filter-pill');
-        const cards = track.querySelectorAll('.car-card');
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1. Floating Bottom Actions Trigger on Scroll
+        const heroActions = document.getElementById('searchWidget');
+        const floatingScrollActions = document.getElementById('floatingScrollActions');
 
-        pills.forEach(pill => {
-          pill.addEventListener('click', () => {
-            pills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
+        updateFloatingActionsVisibility = function () {
+          if (!floatingScrollActions) return;
+          const activeSection = document.getElementById('popularCarsSection');
+          if (!activeSection) return;
 
-            const category = (pill.getAttribute('data-category') || 'all').toLowerCase();
+          const scrollY = window.scrollY || window.pageYOffset;
+          const sectionRect = activeSection.getBoundingClientRect();
 
-            cards.forEach(card => {
-              const cardCats = (card.getAttribute('data-category') || '').toLowerCase();
-              const catList = cardCats.split(/\s+/);
-              if (category === 'all' || catList.includes(category)) {
-                card.style.display = 'flex';
-                card.style.animation = 'fadeIn 0.3s ease forwards';
-              } else {
-                card.style.display = 'none';
-              }
+          // Scrolled down from hero section
+          const heroThreshold = heroActions ? (heroActions.offsetTop + heroActions.offsetHeight / 2) : 250;
+          const hasScrolledDownFromHero = scrollY >= heroThreshold;
+
+          // Still viewing active cars section
+          const isNotBelowSection = sectionRect.bottom >= 150;
+
+          if (hasScrolledDownFromHero && isNotBelowSection) {
+            floatingScrollActions.classList.add('is-visible');
+          } else {
+            floatingScrollActions.classList.remove('is-visible');
+          }
+        };
+
+        window.addEventListener('scroll', updateFloatingActionsVisibility, { passive: true });
+        window.addEventListener('resize', updateFloatingActionsVisibility, { passive: true });
+        updateFloatingActionsVisibility();
+
+        // 2. Category Filter Pills Setup for Self Drive & Driver Packages
+        const setupFilterPills = (containerId, trackId) => {
+          const container = document.getElementById(containerId);
+          const track = document.getElementById(trackId);
+          if (!container || !track) return;
+          const pills = container.querySelectorAll('.filter-pill');
+          const cards = track.querySelectorAll('.car-card');
+
+          pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+              pills.forEach(p => p.classList.remove('active'));
+              pill.classList.add('active');
+
+              const category = (pill.getAttribute('data-category') || 'all').toLowerCase();
+
+              cards.forEach(card => {
+                const cardCats = (card.getAttribute('data-category') || '').toLowerCase();
+                const catList = cardCats.split(/\s+/);
+                if (category === 'all' || catList.includes(category)) {
+                  card.style.display = 'flex';
+                  card.style.animation = 'fadeIn 0.3s ease forwards';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+              track.scrollLeft = 0;
             });
-            track.scrollLeft = 0;
+          });
+        };
+
+        setupFilterPills('selfDriveFilterPills', 'carsSliderTrack');
+        setupFilterPills('driverFilterPills', 'driverSliderTrack');
+
+        // 3. Card Click Selection Shadow
+        const allCards = document.querySelectorAll('.car-card');
+        allCards.forEach(card => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-wishlist') || e.target.closest('.btn-book-card')) {
+              return;
+            }
+            const wasActive = card.classList.contains('is-active');
+            allCards.forEach(c => c.classList.remove('is-active'));
+            if (!wasActive) {
+              card.classList.add('is-active');
+            }
           });
         });
-      };
 
-      setupFilterPills('selfDriveFilterPills', 'carsSliderTrack');
-      setupFilterPills('driverFilterPills', 'driverSliderTrack');
-
-      // 3. Card Click Selection Shadow
-      const allCards = document.querySelectorAll('.car-card');
-      allCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          if (e.target.closest('.btn-wishlist') || e.target.closest('.btn-book-card')) {
-            return;
-          }
-          const wasActive = card.classList.contains('is-active');
-          allCards.forEach(c => c.classList.remove('is-active'));
-          if (!wasActive) {
-            card.classList.add('is-active');
-          }
-        });
-      });
-
-      // 4. Why Choose Us Cards Click Selection Shadow
-      const whyCards = document.querySelectorAll('.why-section .card');
-      whyCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          const wasActive = card.classList.contains('is-active');
-          whyCards.forEach(c => c.classList.remove('is-active'));
-          if (!wasActive) {
-            card.classList.add('is-active');
-          }
-        });
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            card.click();
-          }
-        });
-      });
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.why-section .card')) {
-          whyCards.forEach(c => c.classList.remove('is-active'));
-        }
-      });
-
-      // 5. Statistics Animated Counters with Deceleration Ease
-      const counters = document.querySelectorAll('.stats-section .counter');
-      let hasAnimated = false;
-
-      const animateCounters = () => {
-        if (hasAnimated) return;
-        hasAnimated = true;
-        const duration = 2000;
-
-        counters.forEach(counter => {
-          const target = parseInt(counter.getAttribute('data-target'), 10);
-          const suffix = counter.getAttribute('data-suffix') || '';
-          const startTime = performance.now();
-
-          const updateCount = (currentTime) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-            const current = Math.floor(ease * target);
-
-            counter.textContent = current + suffix;
-
-            if (progress < 1) {
-              requestAnimationFrame(updateCount);
-            } else {
-              counter.textContent = target + suffix;
-              counter.classList.add('counted');
+        // 4. Why Choose Us Cards Click Selection Shadow
+        const whyCards = document.querySelectorAll('.why-section .card');
+        whyCards.forEach(card => {
+          card.addEventListener('click', (e) => {
+            const wasActive = card.classList.contains('is-active');
+            whyCards.forEach(c => c.classList.remove('is-active'));
+            if (!wasActive) {
+              card.classList.add('is-active');
             }
-          };
-
-          requestAnimationFrame(updateCount);
+          });
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('role', 'button');
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
         });
-      };
-
-      const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateCounters();
-            statsObserver.disconnect();
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.why-section .card')) {
+            whyCards.forEach(c => c.classList.remove('is-active'));
           }
         });
-      }, { threshold: 0.2 });
 
-      const statsSection = document.querySelector('.stats-section');
-      if (statsSection) {
-        statsObserver.observe(statsSection);
-      } else {
-        animateCounters();
-      }
-    });
+        // 5. Statistics Animated Counters with Deceleration Ease
+        const counters = document.querySelectorAll('.stats-section .counter');
+        let hasAnimated = false;
 
-    // Wishlist Toggle
-    function toggleWishlist(button, event) {
-      event.stopPropagation();
-      button.classList.toggle('liked');
-      const svg = button.querySelector('svg');
-      if (button.classList.contains('liked')) {
-        svg.setAttribute('fill', 'currentColor');
-      } else {
-        svg.setAttribute('fill', 'none');
-      }
-    }
+        const animateCounters = () => {
+          if (hasAnimated) return;
+          hasAnimated = true;
+          const duration = 2000;
 
-    // Horizontal Slider Scroll (Previous & Next) - works for whichever track is visible
-    function scrollCarsSlider(direction) {
-      const isSelf = currentServiceMode === 'Self Drive';
-      const track = isSelf ? document.getElementById('carsSliderTrack') : document.getElementById('driverSliderTrack');
-      if (track) {
-        const scrollOffset = 380 * direction;
-        track.scrollBy({ left: scrollOffset, behavior: 'smooth' });
-      }
-    }
+          counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'), 10);
+            const suffix = counter.getAttribute('data-suffix') || '';
+            const startTime = performance.now();
 
-    // Scroll to Popular Cars / Search Section
-    function scrollToBooking() {
-      const target = document.getElementById('searchWidget') || document.getElementById('popularCarsSection');
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+            const updateCount = (currentTime) => {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+              const current = Math.floor(ease * target);
 
-    // Category Select and Scroll
-    function selectCategoryAndScroll(category) {
-      setBookingMode('Self Drive');
-      const carsSection = document.getElementById('popularCarsSection');
-      const filterPill = document.querySelector(`#selfDriveFilterPills .filter-pill[data-category="${category}"]`);
-      if (filterPill) {
-        filterPill.click();
-      }
-      if (carsSection) {
-        carsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+              counter.textContent = current + suffix;
 
-    // Select Hub from dropdown/footer and scroll
-    function selectHubAndScroll(hubName) {
-      const modal = document.getElementById('cityModal');
-      if (modal) modal.classList.remove('active');
-      scrollToBooking();
-    }
+              if (progress < 1) {
+                requestAnimationFrame(updateCount);
+              } else {
+                counter.textContent = target + suffix;
+                counter.classList.add('counted');
+              }
+            };
 
-    // Switch to with driver and scroll
-    function switchToWithDriverAndScroll() {
-      setBookingMode('With Driver');
-      scrollToBooking();
-    }
+            requestAnimationFrame(updateCount);
+          });
+        };
 
-    // Book Self Drive Car Handler: Forward details to WhatsApp 93930 93095 (No Prices)
-    function bookCar(carName, specs, extra) {
-      const specsStr = (typeof specs === 'string' && !specs.startsWith('Starting') && !specs.startsWith('₹'))
-        ? specs
-        : (extra || 'Standard Features');
-      const serviceType = currentServiceMode === 'With Driver' ? 'Rent a Car (with driver)' : 'Self Drive';
-      const message = `Hello Bezawada Car Rentals! 🚗\n\nI would like to book a car with the following details:\n\n• Service Mode: ${serviceType}\n• Car Model: ${carName}\n• Specs: ${specsStr}\n• Pick-up Location: Vijayawada (Doorstep Delivery or Hub Pickup)\n\nPlease confirm availability and booking procedure. Thank you!`;
+        const statsObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              animateCounters();
+              statsObserver.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
 
-      const whatsappUrl = `https://wa.me/919393093095?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-    }
-
-    // Book Driver Package Handler: Forward package details to WhatsApp 93930 93095
-    function bookDriverPackage(vehicleName, pkg8h, pkg12h, outstationRate, minLimit) {
-      const message = `Hello Bezawada Car Rentals! 🚗\n\nI would like to book a Car with Driver Package with the following details:\n\n• Vehicle: ${vehicleName}\n• Local Package (8h / 80km): ${pkg8h}\n• Local Package (12h / 100km): ${pkg12h}\n• Outstation Tariff: ${outstationRate} (${minLimit} daily limit)\n• Pick-up City: Vijayawada\n\nPlease confirm driver & car availability. Thank you!`;
-
-      const whatsappUrl = `https://wa.me/919393093095?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-    }
-
-    // Video Modal Handlers
-    function openVideoModal(author, car, route, rating, quote, poster, videoUrl) {
-      const modal = document.getElementById('videoModalOverlay');
-      const videoPlayer = document.getElementById('modalVideoPlayer');
-      const iframe = document.getElementById('modalVideoIframe');
-      const authorEl = document.getElementById('modalCustomerName');
-      const carEl = document.getElementById('modalCarModel');
-      const routeEl = document.getElementById('modalTripRoute');
-      const quoteEl = document.getElementById('modalQuoteSnippet');
-
-      if (authorEl) authorEl.textContent = author;
-      if (carEl) carEl.textContent = car;
-      if (routeEl) routeEl.textContent = route;
-      if (quoteEl) quoteEl.textContent = `"${quote}"`;
-
-      if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
-        if (iframe) {
-          iframe.style.display = 'none';
-          iframe.src = '';
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+          statsObserver.observe(statsSection);
+        } else {
+          animateCounters();
         }
-        if (videoPlayer) {
-          videoPlayer.style.display = 'block';
-          videoPlayer.poster = poster || '';
-          videoPlayer.src = videoUrl;
-          videoPlayer.load();
-          videoPlayer.play().catch(e => console.log('Autoplay handled:', e));
+      });
+
+      // Wishlist Toggle
+      function toggleWishlist(button, event) {
+        event.stopPropagation();
+        button.classList.toggle('liked');
+        const svg = button.querySelector('svg');
+        if (button.classList.contains('liked')) {
+          svg.setAttribute('fill', 'currentColor');
+        } else {
+          svg.setAttribute('fill', 'none');
         }
-      } else {
+      }
+
+      // Horizontal Slider Scroll (Previous & Next) - works for whichever track is visible
+      function scrollCarsSlider(direction) {
+        const isSelf = currentServiceMode === 'Self Drive';
+        const track = isSelf ? document.getElementById('carsSliderTrack') : document.getElementById('driverSliderTrack');
+        if (track) {
+          const scrollOffset = 380 * direction;
+          track.scrollBy({ left: scrollOffset, behavior: 'smooth' });
+        }
+      }
+
+      // Scroll to Popular Cars / Search Section
+      function scrollToBooking() {
+        const target = document.getElementById('searchWidget') || document.getElementById('popularCarsSection');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Category Select and Scroll
+      function selectCategoryAndScroll(category) {
+        setBookingMode('Self Drive');
+        const carsSection = document.getElementById('popularCarsSection');
+        const filterPill = document.querySelector(`#selfDriveFilterPills .filter-pill[data-category="${category}"]`);
+        if (filterPill) {
+          filterPill.click();
+        }
+        if (carsSection) {
+          carsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Select Hub from dropdown/footer and scroll
+      function selectHubAndScroll(hubName) {
+        const modal = document.getElementById('cityModal');
+        if (modal) modal.classList.remove('active');
+        scrollToBooking();
+      }
+
+      // Switch to with driver and scroll
+      function switchToWithDriverAndScroll() {
+        setBookingMode('With Driver');
+        scrollToBooking();
+      }
+
+      // Current booking target info for popup modal
+      let currentBookingTarget = null;
+
+      // Open Car Booking Details Modal
+      function openCarBookingModal(carData) {
+        currentBookingTarget = carData;
+        const modal = document.getElementById('carBookingModalOverlay');
+        const carTitleEl = document.getElementById('bookingModalCarTitle');
+        const carSpecsEl = document.getElementById('bookingModalCarSpecs');
+        const serviceBadgeEl = document.getElementById('bookingModalServiceBadge');
+
+        if (carTitleEl) carTitleEl.textContent = carData.title || 'Selected Car';
+        if (carSpecsEl) carSpecsEl.textContent = carData.subtitle || '';
+        if (serviceBadgeEl) serviceBadgeEl.textContent = carData.serviceType || 'Self Drive';
+
+        // Set minimum date to today
+        const dateInput = document.getElementById('bookingModalDate');
+        if (dateInput) {
+          const todayStr = new Date().toISOString().split('T')[0];
+          dateInput.min = todayStr;
+        }
+
+        // Clear previous error
+        const errorEl = document.getElementById('bookingModalError');
+        if (errorEl) {
+          errorEl.style.display = 'none';
+          errorEl.textContent = '';
+        }
+
+        if (modal) {
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => {
+            const nameInput = document.getElementById('bookingModalName');
+            if (nameInput) nameInput.focus();
+          }, 120);
+        }
+      }
+
+      // Close Car Booking Details Modal
+      function closeCarBookingModal() {
+        const modal = document.getElementById('carBookingModalOverlay');
+        if (modal) {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Clear all fields in the booking modal form
+      function clearCarBookingForm() {
+        const nameInput = document.getElementById('bookingModalName');
+        const mobileInput = document.getElementById('bookingModalMobile');
+        const placeInput = document.getElementById('bookingModalPlace');
+        const dateInput = document.getElementById('bookingModalDate');
+        const errorEl = document.getElementById('bookingModalError');
+
+        if (nameInput) nameInput.value = '';
+        if (mobileInput) mobileInput.value = '';
+        if (placeInput) placeInput.value = '';
+        if (dateInput) dateInput.value = '';
+
+        if (errorEl) {
+          errorEl.style.display = 'none';
+          errorEl.textContent = '';
+        }
+        if (nameInput) nameInput.focus();
+      }
+
+      // Show booking error
+      function showBookingError(msg) {
+        const errorEl = document.getElementById('bookingModalError');
+        if (errorEl) {
+          errorEl.textContent = msg;
+          errorEl.style.display = 'block';
+        }
+      }
+
+      // Proceed with booking: Validate and redirect to WhatsApp with Form Details followed by Car Details
+      function handleBookingProceed() {
+        const nameInput = document.getElementById('bookingModalName');
+        const mobileInput = document.getElementById('bookingModalMobile');
+        const placeInput = document.getElementById('bookingModalPlace');
+        const dateInput = document.getElementById('bookingModalDate');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const mobile = mobileInput ? mobileInput.value.trim() : '';
+        const place = placeInput ? placeInput.value.trim() : '';
+        const date = dateInput ? dateInput.value.trim() : '';
+
+        if (!name) {
+          showBookingError('Please enter your Full Name.');
+          if (nameInput) nameInput.focus();
+          return;
+        }
+        if (!mobile) {
+          showBookingError('Please enter your Mobile Number.');
+          if (mobileInput) mobileInput.focus();
+          return;
+        }
+        const cleanMobile = mobile.replace(/[\s+-]/g, '');
+        if (cleanMobile.length < 10) {
+          showBookingError('Please enter a valid 10-digit Mobile Number.');
+          if (mobileInput) mobileInput.focus();
+          return;
+        }
+        if (!place) {
+          showBookingError('Please enter your Pick-up Place / Area.');
+          if (placeInput) placeInput.focus();
+          return;
+        }
+        if (!date) {
+          showBookingError('Please select your Journey Date.');
+          if (dateInput) dateInput.focus();
+          return;
+        }
+
+        // Format date for neat presentation
+        let formattedDate = date;
+        try {
+          const d = new Date(date + 'T00:00:00');
+          if (!isNaN(d.getTime())) {
+            formattedDate = d.toLocaleDateString('en-IN', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
+            });
+          }
+        } catch (e) {
+          formattedDate = date;
+        }
+
+        let message = '';
+        if (!currentBookingTarget || currentBookingTarget.type === 'selfDrive') {
+          const carName = currentBookingTarget ? currentBookingTarget.carName : 'Self Drive Car';
+          const specsStr = currentBookingTarget ? currentBookingTarget.specsStr : 'Standard Features';
+          const serviceType = currentBookingTarget ? currentBookingTarget.serviceType : 'Self Drive';
+
+          message = `Hello Bezawada Car Rentals! 🚗\n\nI would like to book a car with the following details:\n\n*👤 Customer Details:*\n• Name: ${name}\n• Mobile: ${mobile}\n• Place: ${place}\n• Date: ${formattedDate}\n\n*🚗 Car Details:*\n• Service Mode: ${serviceType}\n• Car Model: ${carName}\n• Specs: ${specsStr}\n\nPlease confirm availability and booking procedure. Thank you!`;
+        } else {
+          const t = currentBookingTarget;
+          message = `Hello Bezawada Car Rentals! 🚗\n\nI would like to book a Car with Driver Package with the following details:\n\n*👤 Customer Details:*\n• Name: ${name}\n• Mobile: ${mobile}\n• Place: ${place}\n• Date: ${formattedDate}\n\n*🚗 Car Details:*\n• Service Mode: Rent a Car (with driver)\n• Vehicle: ${t.vehicleName}\n• Local Package (8h / 80km): ${t.pkg8h}\n• Local Package (12h / 100km): ${t.pkg12h}\n• Outstation Tariff: ${t.outstationRate} (${t.minLimit} daily limit)\n\nPlease confirm driver & car availability. Thank you!`;
+        }
+
+        const whatsappUrl = `https://wa.me/919393093095?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        closeCarBookingModal();
+      }
+
+      // Modal backdrop click handler
+      function handleBookingModalBackdropClick(e) {
+        if (e.target && e.target.id === 'carBookingModalOverlay') {
+          closeCarBookingModal();
+        }
+      }
+
+      // Book Self Drive Car Handler: Pop up details form for particular car
+      function bookCar(carName, specs, extra) {
+        const specsStr = (typeof specs === 'string' && !specs.startsWith('Starting') && !specs.startsWith('₹'))
+          ? specs
+          : (extra || 'Standard Features');
+        const serviceType = currentServiceMode === 'With Driver' ? 'Rent a Car (with driver)' : 'Self Drive';
+
+        openCarBookingModal({
+          type: 'selfDrive',
+          serviceType: serviceType,
+          carName: carName,
+          specsStr: specsStr,
+          title: carName,
+          subtitle: specsStr
+        });
+      }
+
+      // Book Driver Package Handler: Pop up details form for particular driver package
+      function bookDriverPackage(vehicleName, pkg8h, pkg12h, outstationRate, minLimit) {
+        openCarBookingModal({
+          type: 'driverPackage',
+          serviceType: 'Rent a Car (with driver)',
+          vehicleName: vehicleName,
+          pkg8h: pkg8h,
+          pkg12h: pkg12h,
+          outstationRate: outstationRate,
+          minLimit: minLimit,
+          title: vehicleName,
+          subtitle: `${pkg8h} • 12h: ${pkg12h} • Outstation: ${outstationRate}`
+        });
+      }
+
+      // Video Modal Handlers
+      function openVideoModal(author, car, route, rating, quote, poster, videoUrl) {
+        const modal = document.getElementById('videoModalOverlay');
+        const videoPlayer = document.getElementById('modalVideoPlayer');
+        const iframe = document.getElementById('modalVideoIframe');
+        const authorEl = document.getElementById('modalCustomerName');
+        const carEl = document.getElementById('modalCarModel');
+        const routeEl = document.getElementById('modalTripRoute');
+        const quoteEl = document.getElementById('modalQuoteSnippet');
+
+        if (authorEl) authorEl.textContent = author;
+        if (carEl) carEl.textContent = car;
+        if (routeEl) routeEl.textContent = route;
+        if (quoteEl) quoteEl.textContent = `"${quote}"`;
+
+        if (videoUrl.endsWith('.mp4') || videoUrl.includes('.mp4')) {
+          if (iframe) {
+            iframe.style.display = 'none';
+            iframe.src = '';
+          }
+          if (videoPlayer) {
+            videoPlayer.style.display = 'block';
+            videoPlayer.poster = poster || '';
+            videoPlayer.src = videoUrl;
+            videoPlayer.load();
+            videoPlayer.play().catch(e => console.log('Autoplay handled:', e));
+          }
+        } else {
+          if (videoPlayer) {
+            videoPlayer.pause();
+            videoPlayer.style.display = 'none';
+          }
+          if (iframe) {
+            iframe.style.display = 'block';
+            const embedUrl = videoUrl.includes('?') ? `${videoUrl}&autoplay=1` : `${videoUrl}?autoplay=1`;
+            iframe.src = embedUrl;
+          }
+        }
+
+        if (modal) {
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeVideoModal() {
+        const modal = document.getElementById('videoModalOverlay');
+        const videoPlayer = document.getElementById('modalVideoPlayer');
+        const iframe = document.getElementById('modalVideoIframe');
+
         if (videoPlayer) {
           videoPlayer.pause();
-          videoPlayer.style.display = 'none';
+          videoPlayer.src = '';
         }
         if (iframe) {
-          iframe.style.display = 'block';
-          const embedUrl = videoUrl.includes('?') ? `${videoUrl}&autoplay=1` : `${videoUrl}?autoplay=1`;
-          iframe.src = embedUrl;
+          iframe.src = '';
+        }
+        if (modal) {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
         }
       }
 
-      if (modal) {
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function closeVideoModal() {
-      const modal = document.getElementById('videoModalOverlay');
-      const videoPlayer = document.getElementById('modalVideoPlayer');
-      const iframe = document.getElementById('modalVideoIframe');
-
-      if (videoPlayer) {
-        videoPlayer.pause();
-        videoPlayer.src = '';
-      }
-      if (iframe) {
-        iframe.src = '';
-      }
-      if (modal) {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-    }
-
-    function handleModalBackdropClick(e) {
-      if (e.target && e.target.id === 'videoModalOverlay') {
-        closeVideoModal();
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeVideoModal();
-    });
-
-    // Pause testimonials marquee on mobile touch or hover
-    const testimonialsTrack = document.getElementById('testimonialsMarqueeTrack');
-    if (testimonialsTrack) {
-      testimonialsTrack.addEventListener('touchstart', () => {
-        testimonialsTrack.classList.add('is-paused');
-      }, { passive: true });
-      testimonialsTrack.addEventListener('touchend', () => {
-        setTimeout(() => testimonialsTrack.classList.remove('is-paused'), 1500);
-      }, { passive: true });
-    }
-
-    // Hero Stats Strip - Revv-Style Continuous Highlight Cycle
-    (function initHeroStatsRevvAnimation() {
-      const statsStrip = document.getElementById('heroStatsStrip');
-      if (!statsStrip) return;
-
-      const pills = statsStrip.querySelectorAll('.hero-stat-pill');
-      if (pills.length <= 1) return;
-
-      let currentIndex = 0;
-      let intervalId = null;
-
-      function setActiveStat(newIndex) {
-        pills.forEach((pill, idx) => {
-          if (idx === newIndex) {
-            pill.classList.add('is-active');
-          } else {
-            pill.classList.remove('is-active');
-          }
-        });
-        currentIndex = newIndex;
-      }
-
-      function nextStat() {
-        const next = (currentIndex + 1) % pills.length;
-        setActiveStat(next);
-      }
-
-      function startTimer() {
-        if (!intervalId) {
-          intervalId = setInterval(nextStat, 3000);
+      function handleModalBackdropClick(e) {
+        if (e.target && e.target.id === 'videoModalOverlay') {
+          closeVideoModal();
         }
       }
 
-      function stopTimer() {
-        if (intervalId) {
-          clearInterval(intervalId);
-          intervalId = null;
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeVideoModal();
+          closeCarBookingModal();
         }
-      }
-
-      // Allow click and hover on pills like Revv
-      pills.forEach((pill, idx) => {
-        pill.addEventListener('click', () => {
-          stopTimer();
-          setActiveStat(idx);
-          startTimer();
-        });
-
-        pill.addEventListener('mouseenter', () => {
-          stopTimer();
-          setActiveStat(idx);
-        });
       });
 
-      // Resume auto cycle when mouse leaves the strip
-      statsStrip.addEventListener('mouseleave', startTimer);
+      // Pause testimonials marquee on mobile touch or hover
+      const testimonialsTrack = document.getElementById('testimonialsMarqueeTrack');
+      if (testimonialsTrack) {
+        testimonialsTrack.addEventListener('touchstart', () => {
+          testimonialsTrack.classList.add('is-paused');
+        }, { passive: true });
+        testimonialsTrack.addEventListener('touchend', () => {
+          setTimeout(() => testimonialsTrack.classList.remove('is-paused'), 1500);
+        }, { passive: true });
+      }
 
-      // Start automatic cycling
-      startTimer();
-    })();
-  </script>
+      // Hero Stats Strip - Revv-Style Continuous Highlight Cycle
+      (function initHeroStatsRevvAnimation() {
+        const statsStrip = document.getElementById('heroStatsStrip');
+        if (!statsStrip) return;
 
-  <!-- =========================================
+        const pills = statsStrip.querySelectorAll('.hero-stat-pill');
+        if (pills.length <= 1) return;
+
+        let currentIndex = 0;
+        let intervalId = null;
+
+        function setActiveStat(newIndex) {
+          pills.forEach((pill, idx) => {
+            if (idx === newIndex) {
+              pill.classList.add('is-active');
+            } else {
+              pill.classList.remove('is-active');
+            }
+          });
+          currentIndex = newIndex;
+        }
+
+        function nextStat() {
+          const next = (currentIndex + 1) % pills.length;
+          setActiveStat(next);
+        }
+
+        function startTimer() {
+          if (!intervalId) {
+            intervalId = setInterval(nextStat, 3000);
+          }
+        }
+
+        function stopTimer() {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+          }
+        }
+
+        // Allow click and hover on pills like Revv
+        pills.forEach((pill, idx) => {
+          pill.addEventListener('click', () => {
+            stopTimer();
+            setActiveStat(idx);
+            startTimer();
+          });
+
+          pill.addEventListener('mouseenter', () => {
+            stopTimer();
+            setActiveStat(idx);
+          });
+        });
+
+        // Resume auto cycle when mouse leaves the strip
+        statsStrip.addEventListener('mouseleave', startTimer);
+
+        // Start automatic cycling
+        startTimer();
+      })();
+    </script>
+
+    <!-- =========================================
        FLOATING WHATSAPP CTA
        ========================================= -->
-  <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
-    target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat"
-    aria-label="Chat with Bezawada Car Rentals on WhatsApp">
-    <div class="whatsapp-pulse" aria-hidden="true"></div>
-    <svg viewBox="0 0 24 24" width="32" height="32" fill="#ffffff" aria-hidden="true">
-      <path
-        d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
-    </svg>
-    <span class="whatsapp-tooltip">Chat with us</span>
-  </a>
+    <a href="https://wa.me/919393093095?text=Hello%20Bezawada%20Car%20Rentals!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20car."
+      target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat"
+      aria-label="Chat with Bezawada Car Rentals on WhatsApp">
+      <div class="whatsapp-pulse" aria-hidden="true"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#ffffff" aria-hidden="true">
+        <path
+          d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.11.66 4.07 1.79 5.68L2 22l4.57-1.87c1.55 1.01 3.39 1.6 5.47 1.6 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.06c-1.8 0-3.48-.54-4.88-1.46l-.35-.23-2.73 1.12 1.14-2.65-.24-.37A8.15 8.15 0 0 1 3.91 11.9c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13 0 4.49-3.65 8.16-8.13 8.16zm4.72-6.1c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.59.13-.17.26-.68.85-.83 1.02-.15.17-.3.19-.56.06-.26-.13-1.1-.4-2.1-1.28-.77-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.46.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45s-.59-1.42-.81-1.94c-.21-.51-.43-.44-.59-.45h-.5c-.17 0-.45.06-.69.32-.24.26-.91.89-.91 2.17 0 1.28.93 2.52 1.06 2.7.13.17 1.84 2.81 4.46 3.94.62.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.54-.63 1.76-1.24.22-.61.22-1.13.15-1.24-.06-.11-.23-.17-.49-.3z" />
+      </svg>
+      <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
 </body>
 
 </html>
